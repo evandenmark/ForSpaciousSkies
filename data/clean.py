@@ -10,7 +10,7 @@ relevantAirports = []
 
 #FLIGHTS
 import csv
-flightsFile = './flights_2020.csv'
+flightsFile = '../../flights_2020.csv'
 newFlightsFile = "./allFlights_jan.csv"
 processedUSFlightsFile = "./processed_USflights.csv"
 flightOrder = []
@@ -390,11 +390,11 @@ def writeCleanedFiles():
 	print("WRITING AIRPORT FILE")
 	with open(airportFile, 'w') as file:
 		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','name','city','state','country','lat','long','airportType'])
+		csvWriter.writerow(['icao','name','city','state','country','lat','long','maxTraffic'])
 		for icao in sorted(airportDict):
 			airport = airportDict[icao]
 			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([airport.icao, airport.name, airport.city, airport.state, airport.country, airport.latitude, airport.longitude, airport.airportType])
+				csvWriter.writerow([airport.icao, airport.name, airport.city, airport.state, airport.country, airport.latitude, airport.longitude, maxTrafficAirportDict[airport.icao]])
 
 	#flights
 	# print("WRITING FLIGHT FILE")
@@ -429,183 +429,183 @@ def writeCleanedFiles():
 					amt = flightLog[week][startAirport][endAirport]
 					csvWriter.writerow([week,startAirport,endAirport,amt])
 
-	with open(jetblueFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['week','startCode','destCode','amount'])
-		for week in sorted(jbFlightLog):
-			for startAirport in sorted(jbFlightLog[week]):
-				for endAirport in sorted(jbFlightLog[week][startAirport]):
-					amt = jbFlightLog[week][startAirport][endAirport]
-					csvWriter.writerow([week,startAirport,endAirport,amt])
+	# with open(jetblueFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['week','startCode','destCode','amount'])
+	# 	for week in sorted(jbFlightLog):
+	# 		for startAirport in sorted(jbFlightLog[week]):
+	# 			for endAirport in sorted(jbFlightLog[week][startAirport]):
+	# 				amt = jbFlightLog[week][startAirport][endAirport]
+	# 				csvWriter.writerow([week,startAirport,endAirport,amt])
 
-	with open(unitedFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['week','startCode','destCode','amount'])
-		for week in sorted(uaFlightLog):
-			for startAirport in sorted(uaFlightLog[week]):
-				for endAirport in sorted(uaFlightLog[week][startAirport]):
-					amt = uaFlightLog[week][startAirport][endAirport]
-					csvWriter.writerow([week,startAirport,endAirport,amt])
+	# with open(unitedFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['week','startCode','destCode','amount'])
+	# 	for week in sorted(uaFlightLog):
+	# 		for startAirport in sorted(uaFlightLog[week]):
+	# 			for endAirport in sorted(uaFlightLog[week][startAirport]):
+	# 				amt = uaFlightLog[week][startAirport][endAirport]
+	# 				csvWriter.writerow([week,startAirport,endAirport,amt])
 
-	with open(southwestFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['week','startCode','destCode','amount'])
-		for week in sorted(swFlightLog):
-			for startAirport in sorted(swFlightLog[week]):
-				for endAirport in sorted(swFlightLog[week][startAirport]):
-					amt = swFlightLog[week][startAirport][endAirport]
-					csvWriter.writerow([week,startAirport,endAirport,amt])
+	# with open(southwestFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['week','startCode','destCode','amount'])
+	# 	for week in sorted(swFlightLog):
+	# 		for startAirport in sorted(swFlightLog[week]):
+	# 			for endAirport in sorted(swFlightLog[week][startAirport]):
+	# 				amt = swFlightLog[week][startAirport][endAirport]
+	# 				csvWriter.writerow([week,startAirport,endAirport,amt])
 
-	with open(deltaFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['week','startCode','destCode','amount'])
-		for week in sorted(dlFlightLog):
-			for startAirport in sorted(dlFlightLog[week]):
-				for endAirport in sorted(dlFlightLog[week][startAirport]):
-					amt = dlFlightLog[week][startAirport][endAirport]
-					csvWriter.writerow([week,startAirport,endAirport,amt])
+	# with open(deltaFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['week','startCode','destCode','amount'])
+	# 	for week in sorted(dlFlightLog):
+	# 		for startAirport in sorted(dlFlightLog[week]):
+	# 			for endAirport in sorted(dlFlightLog[week][startAirport]):
+	# 				amt = dlFlightLog[week][startAirport][endAirport]
+	# 				csvWriter.writerow([week,startAirport,endAirport,amt])
 
-	with open(americanFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['week','startCode','destCode','amount'])
-		for week in sorted(aaFlightLog):
-			for startAirport in sorted(aaFlightLog[week]):
-				for endAirport in sorted(aaFlightLog[week][startAirport]):
-					amt = aaFlightLog[week][startAirport][endAirport]
-					csvWriter.writerow([week,startAirport,endAirport,amt])
+	# with open(americanFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['week','startCode','destCode','amount'])
+	# 	for week in sorted(aaFlightLog):
+	# 		for startAirport in sorted(aaFlightLog[week]):
+	# 			for endAirport in sorted(aaFlightLog[week][startAirport]):
+	# 				amt = aaFlightLog[week][startAirport][endAirport]
+	# 				csvWriter.writerow([week,startAirport,endAirport,amt])
 
-	with open(spiritFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['week','startCode','destCode','amount'])
-		for week in sorted(spFlightLog):
-			for startAirport in sorted(spFlightLog[week]):
-				for endAirport in sorted(spFlightLog[week][startAirport]):
-					amt = spFlightLog[week][startAirport][endAirport]
-					csvWriter.writerow([week,startAirport,endAirport,amt])
+	# with open(spiritFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['week','startCode','destCode','amount'])
+	# 	for week in sorted(spFlightLog):
+	# 		for startAirport in sorted(spFlightLog[week]):
+	# 			for endAirport in sorted(spFlightLog[week][startAirport]):
+	# 				amt = spFlightLog[week][startAirport][endAirport]
+	# 				csvWriter.writerow([week,startAirport,endAirport,amt])
 
-	with open(frontierFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['week','startCode','destCode','amount'])
-		for week in sorted(frFlightLog):
-			for startAirport in sorted(frFlightLog[week]):
-				for endAirport in sorted(frFlightLog[week][startAirport]):
-					amt = frFlightLog[week][startAirport][endAirport]
-					csvWriter.writerow([week,startAirport,endAirport,amt])
+	# with open(frontierFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['week','startCode','destCode','amount'])
+	# 	for week in sorted(frFlightLog):
+	# 		for startAirport in sorted(frFlightLog[week]):
+	# 			for endAirport in sorted(frFlightLog[week][startAirport]):
+	# 				amt = frFlightLog[week][startAirport][endAirport]
+	# 				csvWriter.writerow([week,startAirport,endAirport,amt])
 
 
-	#max traffic airport
-	with open(maxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(maxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,maxTrafficAirportDict[icao]])
+	# #max traffic airport
+	# with open(maxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(maxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,maxTrafficAirportDict[icao]])
 
-	with open(jetBlueMaxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(jetBlueMaxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,jetBlueMaxTrafficAirportDict[icao]])
+	# with open(jetBlueMaxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(jetBlueMaxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,jetBlueMaxTrafficAirportDict[icao]])
 
-	with open(deltaMaxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(deltaMaxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,deltaMaxTrafficAirportDict[icao]])
+	# with open(deltaMaxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(deltaMaxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,deltaMaxTrafficAirportDict[icao]])
 	
-	with open(unitedMaxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(unitedMaxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,unitedMaxTrafficAirportDict[icao]])
+	# with open(unitedMaxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(unitedMaxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,unitedMaxTrafficAirportDict[icao]])
 
-	with open(southwestMaxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(southwestMaxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,southwestMaxTrafficAirportDict[icao]])
+	# with open(southwestMaxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(southwestMaxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,southwestMaxTrafficAirportDict[icao]])
 
-	with open(americanMaxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(americanMaxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,americanMaxTrafficAirportDict[icao]])
+	# with open(americanMaxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(americanMaxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,americanMaxTrafficAirportDict[icao]])
 
-	with open(spiritMaxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(spiritMaxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,spiritMaxTrafficAirportDict[icao]])
+	# with open(spiritMaxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(spiritMaxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,spiritMaxTrafficAirportDict[icao]])
 
-	with open(frontierMaxTrafficAirportFile, 'w') as file:
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(['icao','maxTraffic'])
-		for icao in sorted(frontierMaxTrafficAirportDict):
-			airport = airportDict[icao]
-			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
-				csvWriter.writerow([icao,frontierMaxTrafficAirportDict[icao]])
+	# with open(frontierMaxTrafficAirportFile, 'w') as file:
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(['icao','maxTraffic'])
+	# 	for icao in sorted(frontierMaxTrafficAirportDict):
+	# 		airport = airportDict[icao]
+	# 		if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+	# 			csvWriter.writerow([icao,frontierMaxTrafficAirportDict[icao]])
 
-	#max traffic routes
-	with open(maxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(maxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],maxTrafficRouteDict[pair]])
+	# #max traffic routes
+	# with open(maxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(maxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],maxTrafficRouteDict[pair]])
 
-	with open(unitedMaxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(unitedMaxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],unitedMaxTrafficRouteDict[pair]])
+	# with open(unitedMaxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(unitedMaxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],unitedMaxTrafficRouteDict[pair]])
 
-	with open(jetBlueMaxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(jetBlueMaxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],jetBlueMaxTrafficRouteDict[pair]])
+	# with open(jetBlueMaxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(jetBlueMaxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],jetBlueMaxTrafficRouteDict[pair]])
 
-	with open(southwestMaxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(southwestMaxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],southwestMaxTrafficRouteDict[pair]])
+	# with open(southwestMaxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(southwestMaxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],southwestMaxTrafficRouteDict[pair]])
 
-	with open(americanMaxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(americanMaxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],americanMaxTrafficRouteDict[pair]])
+	# with open(americanMaxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(americanMaxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],americanMaxTrafficRouteDict[pair]])
 
-	with open(deltaMaxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(deltaMaxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],deltaMaxTrafficRouteDict[pair]])
+	# with open(deltaMaxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(deltaMaxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],deltaMaxTrafficRouteDict[pair]])
 
-	with open(spiritMaxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(spiritMaxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],spiritMaxTrafficRouteDict[pair]])
+	# with open(spiritMaxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(spiritMaxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],spiritMaxTrafficRouteDict[pair]])
 
-	with open(frontierMaxTrafficRouteFile, 'w') as file: 
-		csvWriter = csv.writer(file)
-		csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
-		for pair in sorted(frontierMaxTrafficRouteDict): 
-			csvWriter.writerow([pair[0], pair[1],frontierMaxTrafficRouteDict[pair]])
+	# with open(frontierMaxTrafficRouteFile, 'w') as file: 
+	# 	csvWriter = csv.writer(file)
+	# 	csvWriter.writerow(["routeStart", "routeEnd", "maxTraffic"])
+	# 	for pair in sorted(frontierMaxTrafficRouteDict): 
+	# 		csvWriter.writerow([pair[0], pair[1],frontierMaxTrafficRouteDict[pair]])
 
 
 def getDepartureDate(a):
@@ -748,7 +748,7 @@ def printTotalWeeklyFlights():
 
 	week = 1
 	totalFlightLog[week] = 0
-	day = 0
+	day = 3
 	lastDay = None
 	for flight in flightOrder:
 
@@ -777,7 +777,7 @@ def printLeadingAirlines(specificWeek):
 	
 	week = 1
 	airlineDict = {}
-	day = 0
+	day = 3
 	lastDay = None
 	for flight in flightOrder:
 
@@ -887,7 +887,7 @@ def percentOfFlightsOverXMiles(specificWeek, miles):
 	flightsOverThreshold = 0
 	week = 1
 	airlineDict = {}
-	day = 0
+	day = 3
 	lastDay = None
 
 	for flight in flightOrder:
@@ -936,11 +936,70 @@ def getMaxFlightsInWeek(specificWeek):
 	print sorted(combineKeys(top3Routes).items(), key=operator.itemgetter(1))
 	return sorted(combineKeys(top3Routes).items(), key=operator.itemgetter(1))
 
+def writeAirportFlightsPerWeek():
+	airportWeekly = {}
+
+	for airport in relevantAirports: 
+		airportWeekly[airport] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+	weekNum = 0
+	for week in flightLog:
+		for origin in flightLog[week]:
+			for dest in flightLog[week][origin]:
+				airportWeekly[origin][weekNum] += flightLog[week][origin][dest]
+				airportWeekly[dest][weekNum] += flightLog[week][origin][dest]
+		weekNum +=1
+
+
+	with open("./AirportFlightsPerWeek.csv", 'w') as file:
+		csvWriter = csv.writer(file)
+		csvWriter.writerow(['airport','week1','week2','week3','week4','week5','week6','week7','week8','week9','week10','week11','week12','week13','week14','week15','week16','week17','week18'])
+		csvWriter.writerow(['total', totalFlightLog[1], totalFlightLog[2], totalFlightLog[3], totalFlightLog[4], totalFlightLog[5], totalFlightLog[6], totalFlightLog[7], totalFlightLog[8], totalFlightLog[9], totalFlightLog[10], totalFlightLog[11], totalFlightLog[12], totalFlightLog[13], totalFlightLog[14], totalFlightLog[15] , totalFlightLog[16], totalFlightLog[17], totalFlightLog[18]])
+		for airport in sorted(airportWeekly):
+			newList = [airport] + airportWeekly[airport]
+			csvWriter.writerow(newList)
+
+def writeAirlinesFlightsPerWeek():
+
+	week = 1
+	day = 3
+	lastDay = None
+	airlineWeekly = {}
+	for flight in flightOrder:
+
+		flightDate = flight.departureDate
+		origin = flight.origin
+		dest = flight.destination
+		airline = flight.airline
+
+		if airline not in airlineWeekly:
+			airlineWeekly[airline] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+		if lastDay == None or lastDay != flightDate:
+			day+=1
+			lastDay = flightDate
+			if day%7 == 0:
+				week+=1
+
+		airlineWeekly[airline][week-1] +=1
+
+	with open("./AirlineFlightsPerWeek.csv", 'w') as file:
+		csvWriter = csv.writer(file)
+		csvWriter.writerow(['airline','week1','week2','week3','week4','week5','week6','week7','week8','week9','week10','week11','week12','week13','week14','week15','week16','week17','week18'])
+		for airline in sorted(airlineWeekly):
+			newList = [airline] + airlineWeekly[airline]
+			csvWriter.writerow(newList)
+
+
+
+
+
 
 if __name__ == "__main__":
 	main()
 	# testAFB()
 	writeCleanedFiles()
+	
 	# flightLength1()
 	# flightLength2()
 	# flightLength_24hr()
@@ -948,7 +1007,9 @@ if __name__ == "__main__":
 	# flightLength_februaryLeap_2day()
 	# covid_dist()
 	# print("All tests passed")
-	# printTotalWeeklyFlights()
+	printTotalWeeklyFlights()
+	# writeAirportFlightsPerWeek()
+	writeAirlinesFlightsPerWeek()
 	# printLeadingAirlines(8)
 	# printLeadingAirlines(12)
 	# printLeadingAirlines(13)
@@ -958,12 +1019,12 @@ if __name__ == "__main__":
 	# percentOfFlightsOverXMiles(12, 100)
 	# percentOfFlightsOverXMiles(13, 100)
 	# percentOfFlightsOverXMiles(14, 100)
-	getMaxFlightsInWeek(8)
-	getMaxFlightsInWeek(10)
-	getMaxFlightsInWeek(12)
-	getMaxFlightsInWeek(14)
-	getMaxFlightsInWeek(16)
-	getMaxFlightsInWeek(17)
+	# getMaxFlightsInWeek(8)
+	# getMaxFlightsInWeek(10)
+	# getMaxFlightsInWeek(12)
+	# getMaxFlightsInWeek(14)
+	# getMaxFlightsInWeek(16)
+	# getMaxFlightsInWeek(17)
 	# print "DNV PHX w8:    " + str(flightLog[8]['KDEN']['KPHX']) + " + " + str(flightLog[8]['KPHX']['KDEN'])
 	# print "SEA PDX w8:    " + str(flightLog[8]['KSEA']['KPDX']) + " + " + str(flightLog[8]['KPDX']['KSEA'])
 	# print "LAX SFO w8:    " + str(flightLog[8]['KLAX']['KSFO']) + " + " + str(flightLog[8]['KSFO']['KLAX'])
@@ -972,6 +1033,7 @@ if __name__ == "__main__":
 	# print "SEA PDX w14:    " + str(flightLog[14]['KSEA']['KPDX']) + " + " + str(flightLog[14]['KPDX']['KSEA'])
 	# print "LAX SFO w14:    " + str(flightLog[14]['KLAX']['KSFO']) + " + " + str(flightLog[14]['KSFO']['KLAX'])
 	# print "LAX SJC w14:    " + str(flightLog[14]['KLAX']['KSJC']) + " + " + str(flightLog[14]['KSJC']['KLAX'])
+
 
 
 
