@@ -117,10 +117,11 @@ function drawRoutes(){
 	                })
 	                .attr("fill", "none")
 	                .attr("stroke", 'blue')
-	                .attr("transform", "translate("+currentTranslate+")scale("+currentScale+")")
 	                .transition().duration(750)
 	                .attr("stroke-width", 3)
 	                .attr("stroke-opacity", function(d){return 0.1})
+
+	routes.attr("transform", "translate("+currentTranslate+")scale("+currentScale+")")
 	                
 }
 
@@ -204,6 +205,126 @@ function unhighlightRoutes(){
 	allRoutes = mapSvg.selectAll(".routes")
 	allRoutes.attr("stroke-opacity", function(d){return 0.1})
 
+}
+
+function highlightLargeAirports(){
+	airports = airportData.filter(d => d.icao == "KATL" || d.icao == "KLAX" || d.icao == "KORD");
+	drawAirportCircles(airports);
+	drawAirportCharts(airports);
+
+}
+
+function highlightSmallAirports(){
+	airports = airportData.filter(d => d.icao == "KOAK" || d.icao == "KCOS" || d.icao == "KPVD");
+	drawAirportCircles(airports);
+	drawAirportCharts(airports);
+
+}
+
+function removeHighlightAirports(){
+	charts = mapSvg.selectAll('.airportCharts');
+	charts.transition().duration(750)
+					.attr("opacity", 0);
+
+	circles = mapSvg.selectAll('.airportCircles');
+	circles.transition().duration(750)
+					.attr("opacity", 0);
+
+	charts.remove();
+	circles.remove();
+}
+
+function drawAirportCharts(airports){
+	chartBase = mapSvg.selectAll(".airportCharts")
+				.data(airports)
+				.join(
+			    	enter => enter.append("g"),
+			    	update => update,
+			    	exit => exit.remove()
+		    	).attr("transform", function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1] - screenHeight*0.25;
+					var r = p[0] ;
+					return "translate(" + r +','+q + ")";
+				})
+				.attr("class", "airportCharts")
+
+	var chartWidth = screenWidth*0.2;
+	var chartHeight = screenHeight/5;
+	chartBase.append("rect")
+				.attr("width", chartWidth)
+		    	.attr("height", chartHeight)
+		    	.attr("fill", 'white')
+		    	.transition().duration(750)
+		    	.attr("opacity", 0.9);
+
+
+	margin = 5;
+	airports.forEach(function(q){
+		filteredFlightsPerWeek = airportFlightsPerWeek.filter(x=> x.airport == q.icao)[0]
+		yData = [filteredFlightsPerWeek.week9, filteredFlightsPerWeek.week10, filteredFlightsPerWeek.week11, filteredFlightsPerWeek.week12, filteredFlightsPerWeek.week13, filteredFlightsPerWeek.week14, filteredFlightsPerWeek.week15, filteredFlightsPerWeek.week16, filteredFlightsPerWeek.week17,filteredFlightsPerWeek.week18  ];
+		xData = [9,10,11,12,13,14,15,16,17,18]
+
+		console.log("-----");
+		console.log(q.icao);
+		console.log(yData);
+
+		xScale = d3.scaleLinear()
+						.range ([0, chartWidth - 2*margin])
+						.domain([d3.min(xData),d3.max(xData)])
+
+        yScale = d3.scaleLinear()
+        				.range ([chartHeight - 2*margin, 0])
+        				.domain([0, d3.max(yData)]);
+
+        airportGroup = chartBase.append("g")
+
+        chartBase.append("g")
+	         .attr("transform", "translate(0," + (chartHeight - margin) + ")")
+	         .call(d3.axisBottom(xScale));
+
+        chartBase.append("g")
+	         .call(d3.axisLeft(yScale));
+
+	    chartBase.selectAll('.bar,'+'#'+q.icao)
+    			.data(yData)
+    			.join(
+    				enter => enter.append("rect"),
+			    	update => update,
+			    	exit => exit.remove() 
+    				)
+    			.attr('class','bar')
+    			.attr('id', q.icao)
+    			.attr("x", function (d,i) {
+					return xScale(i+9);
+				})
+				.attr("y", function (d) {
+					return yScale(d);
+				})
+				.attr("width", chartWidth/11)
+				.attr("height", d=> chartHeight - yScale(d) - 2*margin)
+				.attr("fill", 'red');
+
+	})
+}
+
+function drawAirportCircles(airports){
+	mapSvg.selectAll(".airportCircles")
+				.data(airports)
+				.join(
+			    	enter => enter.append("circle"),
+			    	update => update,
+			    	exit => exit.remove()
+		    	).attr("transform", function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1];
+					var r = p[0] ;
+					// return "translate(0,0)";
+					return "translate(" + r +','+q + ")";
+				})
+				.attr("class", "airportCircles")
+		    	.attr("r", 10)
+		    	.style("fill", 'blue');
 }
 
 function zoomToLA(){
@@ -343,35 +464,51 @@ window.addEventListener('scroll', function(e){
 	} else if (screenHeight*3.75 > distanceFromTop && distanceFromTop > screenHeight*2.75){
 		//total flights decline chart
 		zeroToOne = ((distanceFromTop-screenHeight*2.75)/screenHeight);
+		if (currentScrollState != scrollyState.TOTAL_FLIGHTS){
+			unhighlightRoutes();
+			removeHighlightAirports();
+			currentZoomScope = zoomScope.OTHER;
+			currentScrollState = scrollyState.TOTAL_FLIGHTS;
+		}
 
 		if (Math.round(zeroToOne*8 + 10) != currentWeek){
 			currentWeek = Math.round(zeroToOne*8 + 10);
+			
 			drawRoutes();
+			zoomToRightSide();
 		}
 		
 		mapSvg.select("#flightDeclineChart")
 				.attr("opacity", Math.min(zeroToOne*5, 1))
 
-		if (currentScrollState != scrollyState.TOTAL_FLIGHTS){
-			unhighlightRoutes();
-			zoomToRightSide();
-			currentZoomScope = zoomScope.OTHER;
-			currentScrollState = scrollyState.TOTAL_FLIGHTS;
-		}
+		
 	}else if (screenHeight*4.75 > distanceFromTop && distanceFromTop > screenHeight*3.75){
-		//airport comparison
+		//airport comparison large
 		zeroToOne = ((distanceFromTop-screenHeight*3.75)/screenHeight);
 		mapSvg.select("#flightDeclineChart")
 				.attr("opacity", Math.max(-1*zeroToOne*5 + 1, 0))
 
-		if (zeroToOne > 0.2 && zoomScope != zoomScope.COUNTRY){
-				zoomToCountry();
-				currentZoomScope = zoomScope.COUNTRY;
-		}
-		if (currentScrollState != scrollyState.AIRPORT_COMPARE){
+		if (currentScrollState != scrollyState.AIRPORT_COMPARE_LARGE){
+			currentScrollState = scrollyState.AIRPORT_COMPARE_LARGE;
 			removeRoutes();
-			currentScrollState = scrollyState.AIRPORT_COMPARE;
+			setTimeout(zoomToCountry, 750);
+			currentZoomScope = zoomScope.COUNTRY;
+			removeHighlightAirports();
+			setTimeout(highlightLargeAirports, 1500);
 		}
+
+	}
+	else if (screenHeight*5.75 > distanceFromTop && distanceFromTop > screenHeight*4.75){
+		//airport comparison large
+
+		if (currentScrollState != scrollyState.AIRPORT_COMPARE_SMALL){
+			currentScrollState = scrollyState.AIRPORT_COMPARE_SMALL;
+			currentZoomScope = zoomScope.COUNTRY;
+
+			removeHighlightAirports();
+			setTimeout(highlightSmallAirports, 1500);
+		}
+
 	}
 
 })

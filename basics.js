@@ -27,7 +27,8 @@ const scrollyState = {
 	NORMAL_AIRPORT: 'normal_airport',
 	NORMAL_POP_ROUTE: 'normal_pop_route',
 	TOTAL_FLIGHTS: 'total_flights',
-	AIRPORT_COMPARE: 'airport_compare',
+	AIRPORT_COMPARE_LARGE: 'airport_compare_large',
+	AIRPORT_COMPARE_SMALL: 'airport_compare_small',
 	AIRLINE_COMPARE: 'airline_compare'
 } 
 
