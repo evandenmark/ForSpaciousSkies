@@ -800,16 +800,20 @@ def printLeadingAirlines(specificWeek):
 			else:
 				airlineDict[airline] += 1
 
-	print getTopTen(airlineDict)
+	top = getTopX(airlineDict, 30)
+	while len(top) > 0:
+		minKey = minOfDict(top)
+		print minKey + ": " + str(top[minKey])
+		top.pop(minKey)
 
-def getTopTen(d):
+def getTopX(d, x):
 	newDict = {}
 
 	numKeySearched = 0
 	tenthMinVal = 100000000000
 	tenthMinKey = None
 	for key in d:
-		if numKeySearched < 10:
+		if numKeySearched < x:
 			newDict[key] = d[key]
 			tenthMinKey = minOfDict(newDict)
 			tenthMinVal = newDict[tenthMinKey]
@@ -990,6 +994,17 @@ def writeAirlinesFlightsPerWeek():
 			newList = [airline] + airlineWeekly[airline]
 			csvWriter.writerow(newList)
 
+	with open("./AirlineFlightsPerWeek2.csv", 'w') as file:
+		csvWriter = csv.writer(file)
+		csvWriter.writerow(['airline','week','numFlights'])
+		for airline in sorted(airlineWeekly):
+			newList = [airline] + airlineWeekly[airline]
+			week = 1
+			airlineMax = max(airlineWeekly[airline])
+			for num in airlineWeekly[airline]:
+				if week >=9: 
+					csvWriter.writerow([airline,week,round(100*int(num)/float(airlineMax))])
+				week+=1
 
 
 
@@ -1007,12 +1022,12 @@ if __name__ == "__main__":
 	# flightLength_februaryLeap_2day()
 	# covid_dist()
 	# print("All tests passed")
-	printTotalWeeklyFlights()
+	# printTotalWeeklyFlights()
 	# writeAirportFlightsPerWeek()
 	writeAirlinesFlightsPerWeek()
 	# printLeadingAirlines(8)
 	# printLeadingAirlines(12)
-	# printLeadingAirlines(13)
+	printLeadingAirlines(13)
 	# printLeadingAirlines(14)
 	# getMostPopularRoutes()
 	# percentOfFlightsOverXMiles(8, 100)

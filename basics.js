@@ -10,7 +10,7 @@ var mapSvg;
 var mainG;
 var path;
 var projection;
-var currentWeek = 5;
+var currentWeek = 7;
 var currentTranslate = (0,0);
 var currentScale = 1; 
 
@@ -19,7 +19,31 @@ var airportLocationMap;
 var airportStateMap;
 var airportCityMap;
 
+const majorAirports = ['KATL', 'KLAX', 'KORD', 'KBOS', 'KDEN', 'KDFW', 'KSEA']
 let excludedStates = ['AK', 'HI'];
+var airlineMaxes = new Map();
+
+const majorAirlines = ['SWA', 'DAL', 'AAL', 'UAL', 'JBU', 'SKW'];
+const budgetAirlines = ['FFT', 'NKS', 'SCX','AAY'];
+const deliveryAirlines = ['UPS', 'FDX'];
+
+const airlineCategoryMap = new Map([ ['budget', 'blue' ],
+									 ['major', 'orange' ],
+									 ['delivery', 'purple']])
+
+let airlineColor = new Map([['DAL', '#E3132C'], 
+									['JBU', '#003876'], 
+									['UAL', '#cccccc'], 
+									['SWA', '#F9B612'], 
+									['AAL', '#0a92cc'], 
+									['NKS', '#fcff2c'], 
+									['FFT', '#248168'],
+									['UPS', '#644117'],
+									['FDX', '#4D148C'],
+									['SCX', '#F58232'],
+									['AAY', '#02569B'],
+									['SKW', '#003896']]);
+
 
 //SCROLLY
 const scrollyState = {
