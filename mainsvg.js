@@ -65,44 +65,57 @@ function drawScrolly(){
 					    .attr("height", screenHeight*5);
 
 
-	// var middleScrollySVG = d3.select("#middle-column").append("svg")
-	// 				    .attr("width", screenWidth/3)
-	// 				    .attr("height", screenHeight*5);
-
-	// var rightScrollySVG = d3.select("#right-column").append("svg")
-	// 				    .attr("width", screenWidth/3)
-	// 				    .attr("height", screenHeight*5);
-
-
 	//main title
 	var titleRect = scrollySVG.append('rect')
 						.attr("width", "100%")
 						.attr("height", screenHeight/5)
 					    .attr("transform", 'translate('+0+','+screenHeight/3+')')
-					    .attr("fill", "green");
+					    .attr("fill", "#F0F2FF")
+					    .attr("opacity", 0.99);
+
+	var titleBack = scrollySVG.append('rect')
+						.attr("width", "100%")
+						.attr("height", "100%")
+						.attr("fill", "white")
+						.attr("opacity", 0.3)
+
+	var title = scrollySVG.append('text')
+							.attr("id", 'title')
+							.attr("transform", 'translate('+screenWidth*0.5+','+screenHeight*0.42+')')
+							.text("For Spacious Skies")
+
+	var subtitle = scrollySVG.append('text')
+							.attr("id", 'subtitle')
+							.attr("transform", 'translate('+screenWidth*0.5+','+screenHeight*0.46+')')
+							.text("How COVID-19 has rocked US domestic flights")
+
+	var name = scrollySVG.append('text')
+							.attr("id", 'name')
+							.attr("transform", 'translate('+screenWidth*0.5+','+screenHeight*0.5+')')
+							.text("By EVAN DENMARK")
 
 	var normalAirport = scrollySVG.append('rect')
 						.attr("width", "33%")
 						.attr("height", screenHeight/4)
 					    .attr("transform", 'translate('+screenWidth*0.15+','+screenHeight*1.2+')')
-					    .attr("fill", "green");
+					    .attr("fill", "#F0F2FF");
 
 	//most popular airports
 	var popularRoutes = scrollySVG.append('rect')
 						.attr("width", "33%")
 						.attr("height", screenHeight)
 					    .attr("transform", 'translate('+screenWidth*0.67+','+2*screenHeight+')')
-					    .attr("fill", "green");
+					    .attr("fill", "#F0F2FF");
 
 	// //total flight decline
-	// var totalFlightsDecline = mapSvg.append("g");
-	// totalFlightsDecline.append('rect')
-	// 					.attr("width", "33%")
-	// 					.attr("height", "100%")
-	// 					.attr("id", "flightDeclineChart")
-	// 				    .attr("transform", 'translate(0,'+0+')')
-	// 				    .attr("fill", "green")
-	// 				    .attr("opacity", 0);
+	var totalFlightsDecline = mapSvg.append("g");
+	totalFlightsDecline.append('rect')
+						.attr("width", "33%")
+						.attr("height", "100%")
+						.attr("id", "flightDeclineChart")
+					    .attr("transform", 'translate(0,'+0+')')
+					    .attr("fill", "#F0F2FF")
+					    .attr("opacity", 0);
 }
 
 
@@ -279,9 +292,56 @@ function highlightNormalPopRoutes(){
 	allRoutes.attr("stroke-opacity", function(d){return 0.005})
 
 
-	specialRoutes = mapSvg.selectAll("#KSFO-KLAX, #KLAX-KLAS")
+	specialRoutes = mapSvg.selectAll("#KSFO-KLAX, #KLAX-KLAS, #KLAX-KJFK")
 	specialRoutes.attr("stroke-opacity", function(d){return 0.8})
 					.attr("stroke-width", 10)
+
+	textGroup = mapSvg.append('g').attr("class", "LAX-textgroup")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-text')
+			.attr("transform", 'translate('+screenWidth*0.18+','+screenHeight*0.55+')')
+			.text("LAX-SFO")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-text')
+			.attr("transform", 'translate('+screenWidth*0.32+','+screenHeight*0.6+')')
+			.text("LAX-LAS")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-text')
+			.attr("transform", 'translate('+screenWidth*0.39+','+screenHeight*0.68+')')
+			.text("LAX-JFK")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-textflights')
+			.attr("transform", 'translate('+screenWidth*0.155+','+screenHeight*0.39+')')
+			.text("flights")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-textflights')
+			.attr("transform", 'translate('+screenWidth*0.39+','+screenHeight*0.55+')')
+			.text("flights")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-textflights')
+			.attr("transform", 'translate('+screenWidth*0.4925+','+screenHeight*0.69+')')
+			.text("flights")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-textnum')
+			.attr("transform", 'translate('+screenWidth*0.12+','+screenHeight*0.37+')')
+			.text("646")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-textnum')
+			.attr("transform", 'translate('+screenWidth*0.365+','+screenHeight*0.53+')')
+			.text("451")
+
+	textGroup.append("text")
+			.attr("class", 'LAX-textnum')
+			.attr("transform", 'translate('+screenWidth*0.47+','+screenHeight*0.67+')')
+			.text("421")
 
 
 }
@@ -289,6 +349,8 @@ function highlightNormalPopRoutes(){
 function unhighlightRoutes(){
 	allRoutes = mapSvg.selectAll(".routes")
 	allRoutes.attr("stroke-opacity", function(d){return 0.1})
+
+	latextGroup = mapSvg.selectAll(".LAX-textgroup").remove();
 
 }
 
@@ -893,6 +955,7 @@ window.addEventListener('scroll', function(e){
 	else 
 		if (screenHeight*1.75 > distanceFromTop && distanceFromTop > screenHeight*0.5){
 		if (currentScrollState != scrollyState.NORMAL_AIRPORT){
+			unhighlightRoutes();
 			zoomToCountry();
 			currentZoomScope = zoomScope.COUNTRY;
 			removeRoutes();
