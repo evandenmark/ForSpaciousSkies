@@ -757,7 +757,7 @@ def printTotalWeeklyFlights():
 		dest = flight.destination
 		airline = flight.airline
 
-		if isDomestic(flight) and isLargeAirport(origin) and isLargeAirport(dest):
+		if isDomestic(flight):# and isLargeAirport(origin) and isLargeAirport(dest):
 
 			if lastDay == None or lastDay != flightDate:
 				day+=1
@@ -1013,7 +1013,7 @@ def writeAirlinesFlightsPerWeek():
 if __name__ == "__main__":
 	main()
 	# testAFB()
-	writeCleanedFiles()
+	# writeCleanedFiles()
 	
 	# flightLength1()
 	# flightLength2()
@@ -1022,7 +1022,7 @@ if __name__ == "__main__":
 	# flightLength_februaryLeap_2day()
 	# covid_dist()
 	# print("All tests passed")
-	# printTotalWeeklyFlights()
+	printTotalWeeklyFlights()
 	# writeAirportFlightsPerWeek()
 	# writeAirlinesFlightsPerWeek()
 	# printLeadingAirlines(8)
@@ -1035,9 +1035,9 @@ if __name__ == "__main__":
 	# percentOfFlightsOverXMiles(13, 100)
 	# percentOfFlightsOverXMiles(14, 100)
 	# getMaxFlightsInWeek(8)
-	getMaxFlightsInWeek(10)
-	getMaxFlightsInWeek(12)
-	getMaxFlightsInWeek(14)
+	# getMaxFlightsInWeek(10)
+	# getMaxFlightsInWeek(12)
+	# getMaxFlightsInWeek(14)
 	# getMaxFlightsInWeek(16)
 	# getMaxFlightsInWeek(17)
 	# print "DNV PHX w8:    " + str(flightLog[8]['KDEN']['KPHX']) + " + " + str(flightLog[8]['KPHX']['KDEN'])

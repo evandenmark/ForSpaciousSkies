@@ -10,7 +10,7 @@ var mapSvg;
 var mainG;
 var path;
 var projection;
-var currentWeek = 7;
+var currentWeek = 9;
 var currentTranslate = (0,0);
 var currentScale = 1; 
 
@@ -49,6 +49,7 @@ let airlineColor = new Map([['DAL', '#E3132C'],
 const scrollyState = {
 	TITLE : 'title',
 	NORMAL_AIRPORT: 'normal_airport',
+	ABNORMAL_AIRPORT: 'abnormal_airport',
 	NORMAL_POP_ROUTE: 'normal_pop_route',
 	TOTAL_FLIGHTS: 'total_flights',
 	AIRPORT_COMPARE_LARGE: 'airport_compare_large',

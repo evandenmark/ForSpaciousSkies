@@ -56,6 +56,30 @@ function initialLoad(){
 	});
 }
 
+ function wrap(text, width) {
+	  text.each(function() {
+	    var text = d3.select(this),
+	        words = text.text().split(/\s+/).reverse(),
+	        word,
+	        line = [],
+	        lineNumber = 0,
+	        lineHeight = 1.1, // ems
+	        y = text.attr("y"),
+	        dy = parseFloat(text.attr("dy")),
+	        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+	    while (word = words.pop()) {
+	      line.push(word);
+	      tspan.text(line.join(" "));
+	      if (tspan.node().getComputedTextLength() > width) {
+	        line.pop();
+	        tspan.text(line.join(" "));
+	        line = [word];
+	        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight  + "em").text(word);
+	      }
+	    }
+	  });
+}
+
 function drawScrolly(){
 	//draws the scrollytelling blocks
 
@@ -66,39 +90,59 @@ function drawScrolly(){
 
 
 	//main title
-	var titleRect = scrollySVG.append('rect')
+	var titleGroup = scrollySVG.append('g')
+								.attr("transform", 'translate('+screenWidth/2+','+screenHeight/2+')')
+
+	var titleHeight = screenHeight/5;						
+	var titleRect = titleGroup.append('rect')
 						.attr("width", "100%")
 						.attr("height", screenHeight/5)
-					    .attr("transform", 'translate('+0+','+screenHeight/3+')')
+						.attr('transform', 'translate('+ -screenWidth/2 +','+ -0.75*titleHeight+')')
 					    .attr("fill", "#F0F2FF")
 					    .attr("opacity", 0.99);
 
-	var titleBack = scrollySVG.append('rect')
-						.attr("width", "100%")
-						.attr("height", "100%")
-						.attr("fill", "white")
-						.attr("opacity", 0.3)
+	// var titleBack = scrollySVG.append('rect')
+	// 					.attr("width", "100%")
+	// 					.attr("height", "100%")
+	// 					.attr("fill", "white")
+	// 					.attr("opacity", 0.3)
 
-	var title = scrollySVG.append('text')
+	var title = titleGroup.append('text')
 							.attr("id", 'title')
-							.attr("transform", 'translate('+screenWidth*0.5+','+screenHeight*0.42+')')
+							.attr("transform", 'translate('+0+','+ -0.38*titleHeight+')')
 							.text("For Spacious Skies")
 
-	var subtitle = scrollySVG.append('text')
+	var subtitle = titleGroup.append('text')
 							.attr("id", 'subtitle')
-							.attr("transform", 'translate('+screenWidth*0.5+','+screenHeight*0.46+')')
+							.attr("transform", 'translate('+0+','+ -0.16*titleHeight+')')
 							.text("How COVID-19 has rocked US domestic flights")
 
-	var name = scrollySVG.append('text')
+	var name = titleGroup.append('text')
 							.attr("id", 'name')
-							.attr("transform", 'translate('+screenWidth*0.5+','+screenHeight*0.5+')')
 							.text("By EVAN DENMARK")
 
-	var normalAirport = scrollySVG.append('rect')
-						.attr("width", "33%")
+	//normal airport
+	var margin = 10;
+	var rectWidth = 0.33*screenWidth;
+	var normalAirportGroup = scrollySVG.append('g')
+							.attr("transform", 'translate('+screenWidth*0.15+','+screenHeight*1.2+')')
+
+	var normalAirport = normalAirportGroup.append('rect')
+						.attr("width", rectWidth)
 						.attr("height", screenHeight/4)
-					    .attr("transform", 'translate('+screenWidth*0.15+','+screenHeight*1.2+')')
 					    .attr("fill", "#F0F2FF");
+
+	var normalAirportTitle = normalAirportGroup.append('text')
+								.text("The Typical Week")
+								.attr("class", 'boxTitle')
+								.attr('transform', 'translate('+margin+','+3*margin+')');
+
+	var normalAirportText = normalAirportGroup.append('text')
+								.attr("class", 'boxText')
+								.attr('transform', 'translate('+margin+','+6*margin+')')
+								.text("In a normal week, there are roughly 100,000 domestic flights in the US, with \
+										nearly 22% going through America's big three: Atlanta, Chicago O'Hare, and Los Angeles.")
+								.call(wrap, rectWidth)
 
 	//most popular airports
 	var popularRoutes = scrollySVG.append('rect')
@@ -122,7 +166,7 @@ function drawScrolly(){
 
 function drawRoutes(){
 	//draw flight routes
-	console.log(currentWeek);
+	console.log("DRAWING ROUTES");
 	routePaths = createRoutePaths(getFlightsInContinentalUS(temporalFilter(flightData, currentWeek)));
 	routes = mapSvg.selectAll(".routes")
 					.data(routePaths)
@@ -142,8 +186,7 @@ function drawRoutes(){
 	                .transition().duration(750)
 	                .attr("stroke-width", function(d){return d.weight*0.03})
 	                .attr("stroke-opacity", function(d){return d.weight*0.001})
-	                .attr("transform", "translate("+currentTranslate+")scale("+currentScale+")")
-	                // .on('mouseover', mouseoverPath);
+	                .attr("transform", "translate("+currentTranslate+")scale("+currentScale+")");
 
 }
 
@@ -157,6 +200,13 @@ function removeRoutes(){
 								.duration(750)
 								.attr("stroke-opacity", 0)
 
+
+	setTimeout(removeRoutesWait, 750);
+
+}
+
+function removeRoutesWait(){
+	mapSvg.selectAll(".routes").remove();
 }
 
 function drawAirports(){
@@ -169,24 +219,23 @@ function drawAirports(){
 			    	enter => enter.append("rect"),
 			    	update => update,
 			    	exit => exit.remove()
-		    	)
+		    	).attr("transform", function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1] ;
+					var r = p[0] - 15 ;
+					return "translate(" + r +','+q + ")";
+				})
 		    	.attr("width", 30)
 		    	.attr('class', 'airportbaseline')
 		    	.attr('id', d=> d.icao)
 				.attr('fill', 'black')
 				.attr('stroke', "#000000")
 				.attr("height", 1.5)
-				.attr("transform", function(d) {
-					var p = projection([d.long, d.lat]);
-					var q = p[1] ;
-					var r = p[0] - 15 ;
-					return "translate(" + r +','+q + ")";
-				})
 				
 				.transition().duration(750)
 				.attr('opacity', 1);
 
-	mapSvg.selectAll(".airport")
+	airportBar = mapSvg.selectAll(".airport")
 				.data(filteredAirports)
 				.join(
 			    	enter => enter.append("rect"),
@@ -198,55 +247,94 @@ function drawAirports(){
 		    	.attr('id', d=> d.icao)
 				.attr('fill', 'red')
 				.attr('stroke', "#000000")
+		    	.attr('x', function(d) {
+					var p = projection([d.long, d.lat]);
+					var r = p[0] - 7 ;
+					return r;
+				})
+				.attr('y', function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1];
+					return q;
+				})
+				.attr("height", 0)
+				.transition().duration(750)
+				.attr('opacity', 0.7)
 				.attr("height", function(d){
 		    		return getAirportTraffic(d.icao, currentWeek)/75
 		    	})
-				.attr("transform", function(d) {
+		    	.attr('y', function(d) {
 					var p = projection([d.long, d.lat]);
-					var q = p[1] - this.height.baseVal.value ;
-					var r = p[0] - 7 ;
-					return "translate(" + r +','+q + ")";
+					var q = p[1] - getAirportTraffic(d.icao, currentWeek)/75;
+					return q;
 				})
-				
-				.transition().duration(750)
-				.attr('opacity', 0.7);
 
 	mapSvg.selectAll(".airporttext")
 				.data(filteredAirports)
-				.enter().append('text')
+				.join(
+			    	enter => enter.append("text"),
+			    	update => update,
+			    	exit => exit.remove()
+		    	)
 		    	.attr('class', 'airporttext')
 		    	.attr('id', d=> d.icao)
+		    	.attr("x", function(d) {
+					var p = projection([d.long, d.lat]);
+					var r = p[0] -55;
+					return r;
+				})
+				.attr("y", function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1] - 10;
+					return q;
+				})
 				.attr('stroke', "#efefef")
 				.attr("stroke-width", 0.1)
-				.attr("transform", function(d) {
-					var p = projection([d.long, d.lat]);
-					var q = p[1] - getAirportTraffic(d.icao, currentWeek)/75 - 10;
-					var r = p[0] - 55 ;
-					return "translate(" + r +','+q + ")";
-				})
+				
 				.text(function(d){
 					if (majorAirports.indexOf(d.icao) >=0){
 						return d.icao.slice(1, d.icao.length)
 					}
 					return " ";
-				});
+				})
+				.transition().duration(750)
+				.attr("y", function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1] - getAirportTraffic(d.icao, currentWeek)/75 - 10;
+					return q;
+				})
+
 
 	mapSvg.selectAll(".airporttextnum")
 				.data(filteredAirports)
-				.enter().append('text')
+				.join(
+			    	enter => enter.append("text"),
+			    	update => update,
+			    	exit => exit.remove()
+		    	)
 		    	.attr('class', 'airporttextnum')
 		    	.attr('id', d=> d.icao)
-				.attr("transform", function(d) {
+		    	.attr("x", function(d) {
 					var p = projection([d.long, d.lat]);
-					var q = p[1] - getAirportTraffic(d.icao, currentWeek)/75 - 10;
 					var r = p[0] -15;
-					return "translate(" + r +','+q + ")";
+					return r;
+				})
+				.attr("y", function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1] - 10;
+					return q;
 				})
 				.text(function(d){
 					if (majorAirports.indexOf(d.icao) >=0){
-						return getAirportTraffic(d.icao, currentWeek)
+						return getAirportTraffic(d.icao, currentWeek);
 					}
 					return " ";
+				})
+				.transition().duration(750)
+				.attr("y", function(d) {
+					var p = projection([d.long, d.lat]);
+					var q = p[1] - getAirportTraffic(d.icao, currentWeek)/75 - 10;
+					return q;
 				});
 
 
@@ -256,11 +344,17 @@ function drawAirports(){
 function removeAirports(){
 	// mapSvg.selectAll(".airport").remove();
 
-	var airportsToRemove = mapSvg.selectAll(".airport, .airportbaseline, .airporttext, .airporttextnum")
-								.transition()
-								.duration(750)
-								.attr("opacity", 0)
-								.attr("stroke-opacity", 0);
+	var airportsToRemove = mapSvg.selectAll(".airport, .airportbaseline, .airporttext, .airporttextnum").remove();
+	// 							.transition()
+	// 							.duration(750)
+	// 							.attr("opacity", 0)
+	// 							.attr("stroke-opacity", 0);
+
+	// setTimeout(removeAirportWait, 750, airportsToRemove);
+}
+
+function removeAirportWait(a){
+	a.transition().duration(750).remove();
 }
 
 
@@ -348,7 +442,9 @@ function highlightNormalPopRoutes(){
 
 function unhighlightRoutes(){
 	allRoutes = mapSvg.selectAll(".routes")
-	allRoutes.attr("stroke-opacity", function(d){return 0.1})
+	allRoutes.attr("stroke-opacity", function(d){return d.weight*0.001})
+	allRoutes.attr("stroke-width", function(d){return d.weight*0.03})
+
 
 	latextGroup = mapSvg.selectAll(".LAX-textgroup").remove();
 
@@ -955,17 +1051,32 @@ window.addEventListener('scroll', function(e){
 	else 
 		if (screenHeight*1.75 > distanceFromTop && distanceFromTop > screenHeight*0.5){
 		if (currentScrollState != scrollyState.NORMAL_AIRPORT){
-			unhighlightRoutes();
+			currentWeek=9
 			zoomToCountry();
-			currentZoomScope = zoomScope.COUNTRY;
 			removeRoutes();
 			drawAirports();
 			currentScrollState = scrollyState.NORMAL_AIRPORT;
+			currentZoomScope = zoomScope.COUNTRY;
 		}
 
 	} else if (screenHeight*2.75 > distanceFromTop && distanceFromTop > screenHeight*1.75){
+		//abnormal flights
+		if (currentScrollState != scrollyState.ABNORMAL_AIRPORT){
+			currentWeek = 18
+			unhighlightRoutes();
+			zoomToCountry();
+			removeRoutes();
+			drawAirports();
+			currentScrollState = scrollyState.ABNORMAL_AIRPORT;
+			currentZoomScope = zoomScope.COUNTRY;
+		}
+
+	}
+
+	else if (screenHeight*3.75 > distanceFromTop && distanceFromTop > screenHeight*2.75){
 		//LA most popular flights
 		if (currentScrollState != scrollyState.NORMAL_POP_ROUTE){
+			currentWeek = 9;
 			removeAirports();
 			drawRoutes();
 
@@ -978,19 +1089,20 @@ window.addEventListener('scroll', function(e){
 		mapSvg.select("#flightDeclineChart")
 				.attr("opacity", 0);
 
-	} else if (screenHeight*3.75 > distanceFromTop && distanceFromTop > screenHeight*2.75){
+	} else if (screenHeight*4.75 > distanceFromTop && distanceFromTop > screenHeight*3.75){
 		//total flights decline chart
 		zeroToOne = ((distanceFromTop-screenHeight*2.75)/screenHeight);
 		if (currentScrollState != scrollyState.TOTAL_FLIGHTS){
+			currentWeek = 9
 			unhighlightRoutes();
 			removeHighlightAirports();
 			currentZoomScope = zoomScope.OTHER;
 			currentScrollState = scrollyState.TOTAL_FLIGHTS;
 		}
 
-		if (Math.round(zeroToOne*8 + 10) != currentWeek){
-			currentWeek = Math.min(Math.max(Math.round(zeroToOne*15-3), 0),8) + 10;
-
+		if (Math.round(zeroToOne*8)+2 != currentWeek){
+			currentWeek = Math.round(zeroToOne*8)+2;
+			console.log("current week: " + currentWeek)
 			drawRoutes();
 			zoomToRightSide();
 		}
@@ -999,7 +1111,7 @@ window.addEventListener('scroll', function(e){
 				.attr("opacity", Math.min(zeroToOne*5, 1))
 
 		
-	}else if (screenHeight*4.75 > distanceFromTop && distanceFromTop > screenHeight*3.75){
+	}else if (screenHeight*5.75 > distanceFromTop && distanceFromTop > screenHeight*4.75){
 		//airport comparison large
 		zeroToOne = ((distanceFromTop-screenHeight*3.75)/screenHeight);
 		mapSvg.select("#flightDeclineChart")
@@ -1014,7 +1126,7 @@ window.addEventListener('scroll', function(e){
 			setTimeout(highlightHighImpactAirports, 1500);
 		}
 
-	} else if (screenHeight*5.75 > distanceFromTop && distanceFromTop > screenHeight*4.75){
+	} else if (screenHeight*6.75 > distanceFromTop && distanceFromTop > screenHeight*5.75){
 		//airline comparison large
 		
 		if (currentScrollState != scrollyState.AIRLINE_COMPARE){

@@ -7,6 +7,7 @@
 
 #title {
 	font-family: 'Zilla Slab', serif;
+	/*font-weight: bold;*/
 	text-align: center;
 	font-size: 64px;
 	text-anchor: middle;
@@ -26,11 +27,24 @@
 	text-anchor: middle;
 }
 
+.boxTitle {
+	font-family: 'Zilla Slab', serif;
+	font-weight: bold;
+	text-align: left;
+	font-size: 32px;
+}
+
+.boxText {
+	font-family: 'Zilla Slab', serif;
+	text-align: left;
+	font-size: 20px;
+}
+
 
 .airporttext{
 	font-size: 16px;
 	font-family: 'Montserrat', sans-serif;
-	fill: "#2b2b2b";
+	fill: #2b2b2b;
 	stroke: #efefef;
 	stroke-width: 0.25;
 }
@@ -46,9 +60,9 @@
 .LAX-textnum{
 	font-size: 54px;
 	font-family: 'Montserrat', sans-serif;
-	fill: #efefef;
-	stroke: #5e0000;
-	stroke-width: 2;
+	fill: #4b4b4b;
+	stroke: black;
+	stroke-width: 1.5;
 }
 
 .LAX-textflights{
