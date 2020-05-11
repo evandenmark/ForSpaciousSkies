@@ -926,7 +926,7 @@ def getMaxFlightsInWeek(specificWeek):
 	minRouteVal = 100000000000
 	for origin in flightLog[specificWeek]:
 		for dest in flightLog[specificWeek][origin]:
-			if len(top3Routes) < 10:
+			if len(top3Routes) < 25:
 				top3Routes[(origin, dest)] = flightLog[specificWeek][origin][dest]
 				if flightLog[specificWeek][origin][dest] < minRouteVal: 
 					minRoute = (origin, dest)
@@ -1007,6 +1007,35 @@ def writeAirlinesFlightsPerWeek():
 				week+=1
 
 
+def printLeadingAirports(specificWeek):
+
+
+	for week in flightLog:
+		if week == specificWeek:
+			weekDict = {}
+			for origin in flightLog[week]:
+				if origin not in weekDict: 
+					weekDict[origin] = 0
+				for dest in flightLog[week][origin]:
+					weekDict[origin] += flightLog[week][origin][dest]
+					if dest in flightLog[week] and origin in flightLog[week][dest]:
+						weekDict[origin] += flightLog[week][dest][origin]
+
+	top = getTopX(weekDict, 25)
+	while len(top) > 0:
+		minKey = minOfDict(top)
+		print minKey + ": " + str(top[minKey])
+		top.pop(minKey)
+
+	return getTopX(weekDict, 50)
+
+def compareAirports(d1, d2):
+	for a in sorted(d1):
+		if a in d2:
+			# print a +": " + str(d1[a]) + " " + str(float(d2[a]))
+			print a +": " + str(d2[a]/float(d1[a])) + '%'
+
+
 
 
 
@@ -1022,7 +1051,7 @@ if __name__ == "__main__":
 	# flightLength_februaryLeap_2day()
 	# covid_dist()
 	# print("All tests passed")
-	printTotalWeeklyFlights()
+	# printTotalWeeklyFlights()
 	# writeAirportFlightsPerWeek()
 	# writeAirlinesFlightsPerWeek()
 	# printLeadingAirlines(8)
@@ -1034,12 +1063,17 @@ if __name__ == "__main__":
 	# percentOfFlightsOverXMiles(12, 100)
 	# percentOfFlightsOverXMiles(13, 100)
 	# percentOfFlightsOverXMiles(14, 100)
-	# getMaxFlightsInWeek(8)
+	getMaxFlightsInWeek(9)
 	# getMaxFlightsInWeek(10)
 	# getMaxFlightsInWeek(12)
 	# getMaxFlightsInWeek(14)
 	# getMaxFlightsInWeek(16)
-	# getMaxFlightsInWeek(17)
+	getMaxFlightsInWeek(18)
+
+	# a = printLeadingAirports(9)
+	# print('-----------')
+	# b = printLeadingAirports(18)
+	# compareAirports(a,b)
 	# print "DNV PHX w8:    " + str(flightLog[8]['KDEN']['KPHX']) + " + " + str(flightLog[8]['KPHX']['KDEN'])
 	# print "SEA PDX w8:    " + str(flightLog[8]['KSEA']['KPDX']) + " + " + str(flightLog[8]['KPDX']['KSEA'])
 	# print "LAX SFO w8:    " + str(flightLog[8]['KLAX']['KSFO']) + " + " + str(flightLog[8]['KSFO']['KLAX'])
@@ -1048,6 +1082,8 @@ if __name__ == "__main__":
 	# print "SEA PDX w14:    " + str(flightLog[14]['KSEA']['KPDX']) + " + " + str(flightLog[14]['KPDX']['KSEA'])
 	# print "LAX SFO w14:    " + str(flightLog[14]['KLAX']['KSFO']) + " + " + str(flightLog[14]['KSFO']['KLAX'])
 	# print "LAX SJC w14:    " + str(flightLog[14]['KLAX']['KSJC']) + " + " + str(flightLog[14]['KSJC']['KLAX'])
+	print "ANC ORD w10:    " + str(flightLog[10]['PANC']['KORD']) + " + " + str(flightLog[10]['KORD']['PANC'])
+	print "ANC ORD w18:    " + str(flightLog[18]['PANC']['KORD']) + " + " + str(flightLog[18]['KORD']['PANC'])
 
 
 

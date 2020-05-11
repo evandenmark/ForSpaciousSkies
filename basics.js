@@ -1,5 +1,5 @@
 //GLOBAL CONSTANTS
-MAJOR_AIRPORT_THRESHOLD = 2000;
+MAJOR_AIRPORT_THRESHOLD = 1500;
 
 //GLOBAL INITIALIZED VARIABLES
 var airportData;
@@ -11,7 +11,7 @@ var mainG;
 var path;
 var projection;
 var currentWeek = 9;
-var currentTranslate = (0,0);
+var currentTranslate = [0,0];
 var currentScale = 1; 
 
 
@@ -19,9 +19,11 @@ var airportLocationMap;
 var airportStateMap;
 var airportCityMap;
 
-const majorAirports = ['KATL', 'KLAX', 'KORD', 'KBOS', 'KDEN', 'KDFW', 'KSEA']
+const majorAirports = ['KATL', 'KLAX', 'KORD', 'KBOS', 'KDEN', 'KDFW', 'KSEA','KPHX', 'KEWR']
 let excludedStates = ['AK', 'HI'];
 var airlineMaxes = new Map();
+
+const dateMap = new Map([[10, "March 1"],[14, "April 1"]])
 
 const majorAirlines = ['SWA', 'DAL', 'AAL', 'UAL', 'JBU', 'SKW'];
 const budgetAirlines = ['FFT', 'NKS', 'SCX','AAY'];
@@ -44,6 +46,19 @@ let airlineColor = new Map([['DAL', '#E3132C'],
 									['AAY', '#02569B'],
 									['SKW', '#003896']]);
 
+let airlineNameMap= new Map([['DAL', 'Delta'], 
+									['JBU', 'JetBlue'], 
+									['UAL', 'United'], 
+									['SWA', 'Southwest'], 
+									['AAL', 'American'], 
+									['NKS', 'Spirit'], 
+									['FFT', 'Frontier'],
+									['UPS', 'UPS'],
+									['FDX', 'FedEx'],
+									['SCX', 'Sun Country'],
+									['AAY', 'Allegiant'],
+									['SKW', 'SkyWest']]);
+
 
 //SCROLLY
 const scrollyState = {
@@ -51,6 +66,7 @@ const scrollyState = {
 	NORMAL_AIRPORT: 'normal_airport',
 	ABNORMAL_AIRPORT: 'abnormal_airport',
 	NORMAL_POP_ROUTE: 'normal_pop_route',
+	ABNORMAL_POP_ROUTE: 'abnormal_pop_route',
 	TOTAL_FLIGHTS: 'total_flights',
 	AIRPORT_COMPARE_LARGE: 'airport_compare_large',
 	AIRPORT_COMPARE_SMALL: 'airport_compare_small',
@@ -63,6 +79,7 @@ window.scrollTo(0,0);
 //zoom
 const zoomScope = {
 	COUNTRY : 'country',
-	OTHER: 'other'
+	LAX: 'lax',
+	RIGHT_SIDE: 'right_side'
 } 
 let currentZoomScope = zoomScope.COUNTRY;

@@ -18,7 +18,7 @@ KBNA,Nashville International Airport,Nashville,TN,US,36.125,-86.678,2395
 KBOI,Boise Air Terminal/Gowen Field,Boise,ID,US,43.564,-116.223,820
 KBOS,General Edward Lawrence Logan International Airport,Boston,MA,US,42.364,-71.005,4353
 KBUF,Buffalo Niagara International Airport,Buffalo,NY,US,42.94,-78.732,837
-KBWI,Baltimore/Washington International Thurgood Marshall Airport,Baltimore,MD,US,39.175,-76.668,2659
+KBWI,Baltimore/Washington International Thurgood Marshall Airport,Baltimore,MD,US,39.175,-76.35,2659
 KCAE,Columbia Metropolitan Airport,Columbia,SC,US,33.939,-81.119,388
 KCHA,Lovell Field,Chattanooga,TN,US,35.035,-85.204,1
 KCID,The Eastern Iowa Airport,Cedar Rapids,IA,US,41.885,-91.711,12
@@ -30,7 +30,7 @@ KCRP,Corpus Christi International Airport,Corpus Christi,TX,US,27.77,-97.501,179
 KCRW,Yeager Airport,Charleston,WV,US,38.373,-81.593,0
 KCVG,Cincinnati Northern Kentucky International Airport,Cincinnati,KY,US,39.049,-84.668,1627
 KDAB,Daytona Beach International Airport,Daytona Beach,FL,US,29.18,-81.058,121
-KDAL,Dallas Love Field,Dallas,TX,US,32.847,-96.852,2035
+KDAL,Dallas Love Field,Dallas,TX,US,32.92,-96.46,2035
 KDAY,James M Cox Dayton International Airport,Dayton,OH,US,39.902,-84.219,468
 KDBQ,Dubuque Regional Airport,Dubuque,IA,US,42.402,-90.71,21
 KDCA,Ronald Reagan Washington National Airport,Washington,DC,US,38.852,-77.038,3554
@@ -41,8 +41,8 @@ KDLH,Duluth International Airport,Duluth,MN,US,46.842,-92.194,0
 KDSM,Des Moines International Airport,Des Moines,IA,US,41.534,-93.663,4
 KDTW,Detroit Metropolitan Wayne County Airport,Detroit,MI,US,42.212,-83.353,3735
 KERI,Erie International Tom Ridge Field,Erie,PA,US,42.083,-80.174,69
-KEWR,Newark Liberty International Airport,Newark,NJ,US,40.64,-74.25,4258
-KFLL,Fort Lauderdale Hollywood International Airport,Fort Lauderdale,FL,US,26.073,-80.153,2992
+KEWR,Newark Liberty International Airport,Newark,NJ,US,40.72,-74.19,4258
+KFLL,Fort Lauderdale Hollywood International Airport,Fort Lauderdale,FL,US,26.073,-79.5,2992
 KFSM,Fort Smith Regional Airport,Fort Smith,AR,US,35.337,-94.367,1
 KFTW,Fort Worth Meacham International Airport,Fort Worth,TX,US,32.82,-97.362,8
 KFWA,Fort Wayne International Airport,Fort Wayne,IN,US,40.979,-85.195,152
@@ -56,13 +56,13 @@ KHIB,Range Regional Airport,Hibbing,MN,US,47.387,-92.839,0
 KHOU,William P Hobby Airport,Houston,TX,US,29.645,-95.279,1529
 KHSV,Huntsville International Carl T Jones Field,Huntsville,AL,US,34.637,-86.775,298
 KHTS,Tri-State/Milton J. Ferguson Field,Huntington,WV,US,38.367,-82.558,1
-KIAD,Washington Dulles International Airport,Washington,DC,US,38.944,-77.456,2093
+KIAD,Washington Dulles International Airport,Washington,DC,US,38.944,-77.61,2093
 KIAH,George Bush Intercontinental Houston Airport,Houston,TX,US,29.984,-95.341,4004
 KICT,Wichita Eisenhower National Airport,Wichita,KS,US,37.65,-97.433,0
 KIND,Indianapolis International Airport,Indianapolis,IN,US,39.717,-86.294,672
 KJAN,Jackson-Medgar Wiley Evers International Airport,Jackson,MS,US,32.311,-90.076,0
 KJAX,Jacksonville International Airport,Jacksonville,FL,US,30.494,-81.688,4
-KJFK,John F Kennedy International Airport,New York,NY,US,40.64,-73.75,3578
+KJFK,John F Kennedy International Airport,New York,NY,US,40.62,-73.65,3578
 KJLN,Joplin Regional Airport,Joplin,MO,US,37.152,-94.498,0
 KLAS,McCarran International Airport,Las Vegas,NV,US,36.08,-115.152,5131
 KLAX,Los Angeles International Airport,Los Angeles,CA,US,33.943,-118.408,6656
@@ -74,7 +74,7 @@ KLIT,Bill & Hillary Clinton National Airport/Adams Field,Little Rock,AR,US,34.72
 KMBS,MBS International Airport,Saginaw,MI,US,43.533,-84.08,111
 KMCI,Kansas City International Airport,Kansas City,MO,US,39.298,-94.714,1696
 KMCO,Orlando International Airport,Orlando,FL,US,28.429,-81.309,436
-KMDW,Chicago Midway International Airport,Chicago,IL,US,41.786,-87.752,2132
+KMDW,Chicago Midway International Airport,Chicago,IL,US,41.94,-87.3,2132
 KMEM,Memphis International Airport,Memphis,TN,US,35.042,-89.977,1
 KMGE,Dobbins Air Reserve Base,Marietta,GA,US,33.915,-84.516,5
 KMGM,Montgomery Regional (Dannelly Field) Airport,Montgomery,AL,US,32.301,-86.394,5
@@ -91,7 +91,7 @@ KOAK,Metropolitan Oakland International Airport,Oakland,CA,US,37.721,-122.221,16
 KOKC,Will Rogers World Airport,Oklahoma City,OK,US,35.393,-97.601,333
 KOMA,Eppley Airfield,Omaha,NE,US,41.303,-95.894,851
 KONT,Ontario International Airport,Ontario,CA,US,34.056,-117.601,762
-KORD,Chicago O'Hare International Airport,Chicago,IL,US,41.979,-87.905,7944
+KORD,Chicago O'Hare International Airport,Chicago,IL,US,41.979,-88,7944
 KORF,Norfolk International Airport,Norfolk,VA,US,36.895,-76.201,754
 KPBI,Palm Beach International Airport,West Palm Beach,FL,US,26.683,-80.096,0
 KPDX,Portland International Airport,Portland,OR,US,45.589,-122.598,2137
