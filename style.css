@@ -24,6 +24,13 @@
 	text-anchor: middle;
 }
 
+.theend {
+	font-family: 'Montserrat', serif;
+	text-align: center;
+	font-size: 16px;
+	text-anchor: middle;
+}
+
 #name {
 	font-family: 'Zilla Slab', serif;
 	text-align: center;
@@ -42,6 +49,12 @@
 	font-family: 'Zilla Slab', serif;
 	text-align: left;
 	font-size: 20px;
+}
+
+.calendar{
+	font-size: 16px;
+	font-family: 'Montserrat', sans-serif;
+	fill: #2b2b2b;
 }
 
 
@@ -91,10 +104,11 @@
 	fill: black;
 }
 
-.lable {
-	font-size: 16px;
+.label {
+	font-size: 48px;
 	font-family: 'Montserrat', sans-serif;
 	fill: black;
+	opacity: 0.35;
 }
 
 .toggleRect{
@@ -110,5 +124,5 @@
 .column{
 	float: left;
 	width: 100%;
-	height: 1500%;
+	height: 850%;
 }

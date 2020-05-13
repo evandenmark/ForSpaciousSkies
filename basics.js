@@ -7,6 +7,7 @@ var flightData;
 var airlineFlightsPerWeek;
 var airportFlightsPerWeek;
 var mapSvg;
+var scrollySVG;
 var mainG;
 var path;
 var projection;
@@ -19,7 +20,7 @@ var airportLocationMap;
 var airportStateMap;
 var airportCityMap;
 
-const majorAirports = ['KATL', 'KLAX', 'KORD', 'KBOS', 'KDEN', 'KDFW', 'KSEA','KPHX', 'KEWR']
+const majorAirports = ['KATL', 'KLAX', 'KORD', 'KBOS', 'KDEN', 'KDFW', 'KSEA','KPHX', 'KEWR', 'KSDF']
 let excludedStates = ['AK', 'HI'];
 var airlineMaxes = new Map();
 
@@ -83,3 +84,4 @@ const zoomScope = {
 	RIGHT_SIDE: 'right_side'
 } 
 let currentZoomScope = zoomScope.COUNTRY;
+var hidingRect;

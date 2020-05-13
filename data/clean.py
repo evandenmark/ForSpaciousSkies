@@ -393,7 +393,13 @@ def writeCleanedFiles():
 		csvWriter.writerow(['icao','name','city','state','country','lat','long','maxTraffic'])
 		for icao in sorted(airportDict):
 			airport = airportDict[icao]
+			if airport.icao == 'KLGA':
+				print airport.icao
+				print airport.country
+				print airport.airportType
+				print isAirForceBase(airport.icao)
 			if airport.country == "US" and airport.airportType == "large_airport" and not isAirForceBase(airport.icao):
+				print airport.icao
 				csvWriter.writerow([airport.icao, airport.name, airport.city, airport.state, airport.country, airport.latitude, airport.longitude, maxTrafficAirportDict[airport.icao]])
 
 	#flights
@@ -1021,7 +1027,7 @@ def printLeadingAirports(specificWeek):
 					if dest in flightLog[week] and origin in flightLog[week][dest]:
 						weekDict[origin] += flightLog[week][dest][origin]
 
-	top = getTopX(weekDict, 25)
+	top = getTopX(weekDict, 50)
 	while len(top) > 0:
 		minKey = minOfDict(top)
 		print minKey + ": " + str(top[minKey])
@@ -1036,13 +1042,28 @@ def compareAirports(d1, d2):
 			print a +": " + str(d2[a]/float(d1[a])) + '%'
 
 
+def dafuqAlaska():
+	
+	alaskaWeek = {}
+	for week in flightLog:
+		alaskaWeek[week] = 0
+		for origin in flightLog[week]:
+			if origin == "PANC":
+				for dest in flightLog[week][origin]:
+					alaskaWeek[week] += flightLog[week][origin][dest]
+			else:
+				for dest in flightLog[week][origin]:
+					if dest == 'PANC':
+						alaskaWeek[week] += flightLog[week][origin][dest]
+	print "ALASKA: "
+	print alaskaWeek
 
 
 
 if __name__ == "__main__":
 	main()
 	# testAFB()
-	# writeCleanedFiles()
+	writeCleanedFiles()
 	
 	# flightLength1()
 	# flightLength2()
@@ -1051,24 +1072,24 @@ if __name__ == "__main__":
 	# flightLength_februaryLeap_2day()
 	# covid_dist()
 	# print("All tests passed")
-	# printTotalWeeklyFlights()
-	# writeAirportFlightsPerWeek()
-	# writeAirlinesFlightsPerWeek()
-	# printLeadingAirlines(8)
+	printTotalWeeklyFlights()
+	writeAirportFlightsPerWeek()
+	writeAirlinesFlightsPerWeek()
+	# printLeadingAirlines(9)
 	# printLeadingAirlines(12)
 	# printLeadingAirlines(13)
-	# printLeadingAirlines(14)
+	# printLeadingAirlines(18)
 	# getMostPopularRoutes()
 	# percentOfFlightsOverXMiles(8, 100)
 	# percentOfFlightsOverXMiles(12, 100)
 	# percentOfFlightsOverXMiles(13, 100)
 	# percentOfFlightsOverXMiles(14, 100)
-	getMaxFlightsInWeek(9)
+	# getMaxFlightsInWeek(9)
 	# getMaxFlightsInWeek(10)
 	# getMaxFlightsInWeek(12)
 	# getMaxFlightsInWeek(14)
 	# getMaxFlightsInWeek(16)
-	getMaxFlightsInWeek(18)
+	# getMaxFlightsInWeek(18)
 
 	# a = printLeadingAirports(9)
 	# print('-----------')
@@ -1084,7 +1105,7 @@ if __name__ == "__main__":
 	# print "LAX SJC w14:    " + str(flightLog[14]['KLAX']['KSJC']) + " + " + str(flightLog[14]['KSJC']['KLAX'])
 	print "ANC ORD w10:    " + str(flightLog[10]['PANC']['KORD']) + " + " + str(flightLog[10]['KORD']['PANC'])
 	print "ANC ORD w18:    " + str(flightLog[18]['PANC']['KORD']) + " + " + str(flightLog[18]['KORD']['PANC'])
-
+	dafuqAlaska()
 
 
 

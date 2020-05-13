@@ -84,11 +84,13 @@ function initialLoad(){
 
 function drawScrolly(){
 	//draws the scrollytelling blocks
+	console.log("WEEEEE")
+	console.log(screenWidth)
 
 	//main columns
-	var scrollySVG = d3.select("#scrolly-column").append("svg")
+	scrollySVG = d3.select("#scrolly-column").append("svg")
 					    .attr("width", screenWidth)
-					    .attr("height", screenHeight*10);
+					    .attr("height", screenHeight*8.5);
 
 
 	//main title
@@ -103,11 +105,11 @@ function drawScrolly(){
 					    .attr("fill", "#F0F2FF")
 					    .attr("opacity", 0.99);
 
-	// var titleBack = scrollySVG.append('rect')
-	// 					.attr("width", "100%")
-	// 					.attr("height", "100%")
-	// 					.attr("fill", "white")
-	// 					.attr("opacity", 0.3)
+	var titleBack = scrollySVG.append('rect')
+						.attr("width", "100%")
+						.attr("height", "100%")
+						.attr("fill", "white")
+						.attr("opacity", 0.3)
 
 	var title = titleGroup.append('text')
 							.attr("id", 'title')
@@ -144,7 +146,7 @@ function drawScrolly(){
 								.attr('transform', 'translate('+margin+','+6*margin+')')
 								.text("In a normal week, there are roughly 100,000 domestic flights in the US, with \
 										nearly 22% going through America's big three: Atlanta (ATL), Chicago O'Hare (ORD), and Los Angeles (LAX).")
-								.call(wrap, rectWidth)
+								.call(wrap, rectWidth - 2*margin)
 
 	//abnormal airports week 18
 	var abNormalAirportGroup = scrollySVG.append('g')
@@ -172,6 +174,12 @@ function drawScrolly(){
 								.text("Of the US's major airports, Newark (EWR) was the hit the hardest, reducing its traffic to only 9% of its weekly normal.")
 								.call(wrap, rectWidth-2*margin)
 
+	var abNormalAirportText3 = abNormalAirportGroup.append('text')
+								.attr("class", 'boxText')
+								.attr('transform', 'translate('+margin+','+18*margin+')')
+								.text("Airports in more rural cities saw less of a decrease, like Louisville, KY (SDF), which shrunk to only 71% of its weekly normal.")
+								.call(wrap, rectWidth-2*margin)
+
 	//most popular airports
 	var normalPopRoutesGroup = scrollySVG.append('g')
 							.attr("transform", 'translate('+screenWidth*0.67+','+screenHeight*3+')')
@@ -189,7 +197,7 @@ function drawScrolly(){
 	var normalPopRoutesText = normalPopRoutesGroup.append('text')
 								.attr("class", 'boxText')
 								.attr('transform', 'translate('+margin+','+6*margin+')')
-								.text("In a normal 2020 week, the three most popular routes were involved LAX. From February 21-27, there were 618 flights between LAX and SFO.")
+								.text("In a normal 2020 week, the three most popular routes go through LAX. From February 21-27, there were 618 flights between LAX and SFO.")
 								.call(wrap, rectWidth-2*margin)
 
 	var normalPopRoutesText2 = normalPopRoutesGroup.append('text')
@@ -301,13 +309,13 @@ function drawScrolly(){
 	var top10_3_2 = abNormalPopRoutesGroup.append('text')
 								.attr("class", 'boxText')
 								.attr('transform', 'translate('+3*margin+','+24*margin+')')
-								.text("3. PANC-ORD: 87")
+								.text("3. ANC-ORD: 87")
 								.call(wrap, rectWidth-2*margin)
 
 	var top10_4_2 = abNormalPopRoutesGroup.append('text')
 								.attr("class", 'boxText')
 								.attr('transform', 'translate('+3*margin+','+27*margin+')')
-								.text("4. PANC-SEA: 85")
+								.text("4. ANC-SEA: 85")
 								.call(wrap, rectWidth-2*margin)
 
 	var top10_5_2 = abNormalPopRoutesGroup.append('text')
@@ -348,17 +356,17 @@ function drawScrolly(){
 
 
 	//EWR and SDF comparison
-	var ewrsdfGroup = scrollySVG.append('g')
-							.attr("transform", 'translate('+0+','+6.2*screenHeight+')')
-							.attr("id", "ewrsdfGroup")
-							.attr("opacity", 1);
+	// var ewrsdfGroup = scrollySVG.append('g')
+	// 						.attr("transform", 'translate('+0+','+6.2*screenHeight+')')
+	// 						.attr("id", "ewrsdfGroup")
+	// 						.attr("opacity", 1);
 
-	var ewrsdfRect = ewrsdfGroup.append('rect')
-						.attr("width", rectWidth)
-						.attr("height", screenHeight/4)
-						.attr("id", "ewrsdfRect")
-					    .attr("fill", "#F0F2FF")
-					    .attr("opacity", 1);
+	// var ewrsdfRect = ewrsdfGroup.append('rect')
+	// 					.attr("width", rectWidth)
+	// 					.attr("height", screenHeight/4)
+	// 					.attr("id", "ewrsdfRect")
+	// 				    .attr("fill", "#F0F2FF")
+	// 				    .attr("opacity", 1);
 
 	// //total flight decline
 	var totalFlightsDecline = mapSvg.append("g")
@@ -373,6 +381,50 @@ function drawScrolly(){
 					    .attr("fill", "#F0F2FF");
 
 	makeFlightDeclineChart(totalFlightsDecline);
+
+	makeAirlineChart(scrollySVG);
+
+
+	theEndGroup = scrollySVG.append('g')
+					   		 .attr("transform", 'translate('+0+','+screenHeight*7.75+')')
+
+
+	theEndGroup.append('rect')
+						.attr("width", screenWidth)
+						.attr("height", screenHeight/3)
+					    .attr("fill", "#F0F2FF");
+
+
+	theEndGroup.append('text')
+							.attr("class", 'theend')
+							.attr("transform", 'translate('+screenWidth/2+','+ screenHeight*0.07+')')
+							.text("Open source flight data provided by OpenSky Network at www.opensky-network.org")
+							.call(wrap, screenWidth/2)
+
+	theEndGroup.append('text')
+							.attr("class", 'theend')
+							.attr("transform", 'translate('+screenWidth/2+','+ screenHeight*0.12+')')
+							.text('Matthias SchÃ¤fer, Martin Strohmeier, Vincent Lenders, Ivan Martinovic and Matthias Wilhelm.\
+									"Bringing Up OpenSky: A Large-scale ADS-B Sensor Network for Research".\
+									In Proceedings of the 13th IEEE/ACM International Symposium on Information Processing in Sensor Networks (IPSN), pages 83-94, April 2014.')
+
+							.call(wrap, screenWidth/2)
+
+	theEndGroup.append('text')
+							.attr("class", 'theend')
+							.attr("transform", 'translate('+screenWidth/2+','+ screenHeight*0.22+')')
+							.text('Xavier Olive.\
+									"traffic, a toolbox for processing and analysing air traffic data."\
+									Journal of Open Source Software 4(39), July 2019')
+
+							.call(wrap, screenWidth/2)
+
+	theEndGroup.append('text')
+							.attr("class", 'theend')
+							.attr("transform", 'translate('+screenWidth/2+','+ screenHeight*0.29+')')
+							.text('Airport location data provided by OurAirports at www.ourairports.com')
+
+							.call(wrap, screenWidth/2)
 
 
 
@@ -389,25 +441,25 @@ function makeFlightDeclineChart(chartGroup){
 	margin = chartWidth/20;
 
 	const xScale = d3.scaleLinear()
-						.range ([2*margin, chartWidth])
+						.range ([-margin, chartWidth+margin])
 						.domain([0, xData.length])
 
     const yScale = d3.scaleLinear()
         				.range ([chartHeight - 2*margin, 0])
         				.domain([0, d3.max(yData)]);
 
-    chartGroup.append("g")
-         .attr("transform", "translate("+0+','+(chartHeight-margin)+ ")")
-         .call(d3.axisBottom(xScale).ticks(10));
+    // chartGroup.append("g")
+    //      .attr("transform", "translate("+0+','+(chartHeight-margin)+ ")")
+    //      .call(d3.axisBottom(xScale).ticks(10));
 
-    chartGroup.append("g")
-         .attr("transform", "translate("+2*margin+','+margin+ ")")
-         .call(d3.axisLeft(yScale).ticks(3));
+    // chartGroup.append("g")
+    //      .attr("transform", "translate("+2*margin+','+margin+ ")")
+    //      .call(d3.axisLeft(yScale).ticks(3));
 
     var line = d3.line()
     			.x(function(d,i) { return xScale(i); })
 				.y(function(d) {  return yScale(d); })
-				// .curve(d3.curveMonotoneX)
+				.curve(d3.curveMonotoneX)
 
 	actualLine = chartGroup.append("path")
       	.attr("class", "lineTotal")
@@ -416,6 +468,144 @@ function makeFlightDeclineChart(chartGroup){
         .attr("stroke-width", 8)
         .attr("transform", "translate("+margin+','+margin+ ")")
         .attr("d", line(yData))
+
+    //hiding rect
+    chartGroup.append('rect')
+    			.attr('transform', 'translate('+0+','+0+')')
+    			.attr('fill', '#F0F2FF')
+    			.attr('height', chartHeight)
+    			.attr('width', chartWidth)
+    			.attr('id', 'declineHidingRect')
+
+
+    //dashed lines
+    chartGroup.append("line")
+      					.attr("stroke", 'black')
+      					.attr("x1", 0)     
+					    .attr("y1", yScale(100000)+margin)      
+					    .attr("x2", chartWidth)     
+					    .attr("y2", yScale(100000)+margin)
+					    .attr("stroke-width", 4)
+					    .attr("stroke-opacity", 0.15)
+					    .attr("stroke-dasharray", "10,10"); 
+
+	chartGroup.append("line")
+      					.attr("stroke", 'black')
+      					.attr("x1", 0)     
+					    .attr("y1", yScale(28054)+margin) 
+					    .attr("x2", chartWidth)     
+					    .attr("y2", yScale(28054)+margin)
+					    .attr("stroke-width", 4)
+					    .attr("stroke-opacity", 0.15)
+					    .attr("stroke-dasharray", "10,10"); 
+
+	chartGroup.append("line")
+      					.attr("stroke", 'black')
+      					.attr("x1", 0)     
+					    .attr("y1", yScale(0)+margin) 
+					    .attr("x2", chartWidth)     
+					    .attr("y2", yScale(0)+margin)
+					    .attr("stroke-width", 4)
+					    .attr("stroke-opacity", 0.15)
+					    .attr("stroke-dasharray", "10,10");
+
+	textOffsetY = 8;
+	textOffsetX = chartWidth/100;
+	chartGroup.append("text")
+	  					.attr('transform', 'translate('+ textOffsetX + ', '+ (yScale(100000)+margin - textOffsetY)+ ')')
+	  					.attr('class', 'label')
+	  					.text("100,000 flights")
+
+	chartGroup.append("text")
+	  					.attr('transform', 'translate('+ textOffsetX + ', '+ (yScale(28054)+margin - textOffsetY)+ ')')
+	  					.attr('class', 'label')
+	  					.text("28,054 flights")
+
+	// chartGroup.append("text")
+	//   					.attr('transform', 'translate('+ textOffsetX + ', '+ (yScale(0)+margin - textOffsetY)+ ')')
+	//   					.attr('class', 'label')
+	//   					.text("Empty Skies")
+
+
+    //text
+    declineTitle = chartGroup.append('text')
+    							.text("Decrease in Flights")
+    							.attr('class', 'boxTitle')
+								.attr('transform', 'translate('+margin+','+chartHeight*1.2+')');
+
+    declineText = chartGroup.append('text')
+							.text("Begginning the week of March 16, flights across the board took a nosedive for four straight weeks before leveling off around April 19. The last two weeks in April saw approximately 27% of 2020's busiest week. ")
+							.attr('class', 'boxText')
+							.attr('transform', 'translate('+margin+','+chartHeight*1.3+')')
+							.call(wrap, screenWidth*0.3);
+
+
+	  strokeWidth = 2;
+	  //feb
+	  chartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ 0 + ', '+ chartHeight+ ')')
+	  					.attr('width', chartWidth*0.15)
+	  					.attr("rx", 3)
+	  					.attr("ry", 3)
+	  					.attr('height', 20)
+	  					.attr("opacity", 0.3)
+	  					.attr("fill", '#E7E7E7')
+	  					.attr("stroke", "#3B3B3B")
+	  					.attr("stroke-opacity", 0.8)
+	  					.attr('stroke-width', strokeWidth)
+
+
+	  chartGroup.append('text')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.002)+ ', '+  (chartHeight+ 15)+ ')')
+	 		 			.attr("class", 'calendar')
+	 		 			.text('Feb');
+
+	  //march
+	  chartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.15 + strokeWidth) + ', '+ chartHeight+ ')')
+	  					.attr('width', chartWidth*0.4)
+	  					.attr("rx", 3)
+	  					.attr("ry", 3)
+	  					.attr('height', 20)
+	  					.attr("opacity", 0.3)
+	  					.attr("fill", '#E7E7E7')
+	  					.attr("stroke", "#3B3B3B")
+	  					.attr("stroke-opacity", 0.8)
+	  					.attr('stroke-width', strokeWidth)
+
+	  chartGroup.append('text')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.152 + strokeWidth) + ', '+  (chartHeight+ 15)+ ')')
+	 		 			.attr("class", 'calendar')
+	 		 			.text('Mar');
+
+	  //april
+	  chartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.55 + strokeWidth) + ', '+ chartHeight+ ')')
+	  					.attr('width', chartWidth*0.44)
+	  					.attr("rx", 3)
+	  					.attr("ry", 3)
+	  					.attr('height', 20)
+	  					.attr("opacity", 0.3)
+	  					.attr("fill", '#E7E7E7')
+	  					.attr("stroke", "#3B3B3B")
+	  					.attr("stroke-opacity", 0.8)
+	  					.attr('stroke-width', strokeWidth)
+
+	  chartGroup.append('text')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.552 + 2*strokeWidth) + ', '+ (chartHeight+ 15)+ ')')
+	 		 			.attr("class", 'calendar')
+	 		 			.text('Apr');
+
+
+	 //marker
+	 chartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ 0 + ', '+ chartHeight+ ')')
+	  					.attr('width', chartWidth*0.1)
+	  					.attr('height', 20)
+	  					.attr('id', 'timelineMarkerDecline')
+	  					.attr('fill', '#F08600')
+	  					.attr('opacity', 0.5)
+
 
 
 
@@ -445,8 +635,16 @@ function drawRoutes(){
 	                .attr("stroke-width", 0)
 	                .attr("stroke-opacity", 0)
 	                .attr('transform', 'translate('+currentTranslate[0]+','+currentTranslate[1]+'),scale('+currentScale+')')
-	                .attr("stroke-width", function(d){return d.weight*0.03})
-	                .attr("stroke-opacity", function(d){return d.weight*0.001});
+	                .attr("stroke-width", function(d){
+	                	if (currentScrollState == scrollyState.TOTAL_FLIGHTS){
+	                		return d.weight*0.05
+	                	}
+	                	return d.weight*0.03})
+	                .attr("stroke-opacity", function(d){
+	                	if (currentScrollState == scrollyState.TOTAL_FLIGHTS){
+	                		return d.weight*0.003
+	                	}return d.weight*0.001
+	                });
 
 }
 
@@ -1129,37 +1327,38 @@ function removeAirportCircles(){
 	circles.remove();
 }
 
-function makeAirlineChart(){
-	let airlinesChartGroup = mapSvg.append("g")
-								   .attr("transform", "translate(" + 0 + ","+ 0+")")
+function makeAirlineChart(scrollySVG){
+	let airlinesChartGroup = scrollySVG.append("g")
+								   .attr("transform", "translate(" + 0 + ","+ screenHeight*6.3+")")
 								   .attr("class", "airlineGroup");
 
-	chartWidth = screenWidth*0.6;
-	chartHeight = screenHeight*0.6;
+	chartWidth = screenWidth*0.99;
+	chartHeight = screenHeight;
+	margin = chartHeight/20;
 	airlinesChartGroup.append("rect")
 						.attr("id", "airline-background")
 						.attr("width", screenWidth)
-						.attr("height", screenHeight)
+						.attr("height", screenHeight + margin)
 						.attr("fill", "white")
-						.attr("opacity", 0.7);
+						.attr('transform', 'translate('+0+','+ - margin+')')
+						.attr("opacity", 1);
 
-	margin = chartWidth/20;
 
 	const xScale = d3.scaleLinear()
-						.range ([margin, chartWidth - margin])
+						.range ([0, chartWidth])
 						.domain([9,18])
 
     const yScale = d3.scaleLinear()
-        				.range ([chartHeight , 0])
+        				.range ([(chartHeight - 2*margin) , margin])
         				.domain([0, 100]);
 
-    airlinesChartGroup.append("g")
-         .attr("transform", "translate("+0+"," + (chartHeight + margin) + ")")
-         .call(d3.axisBottom(xScale).tickFormat(function(d){return dateMap.get(d) || " "}));
+    // airlinesChartGroup.append("g")
+    //      .attr("transform", "translate("+0+"," + (chartHeight + margin) + ")")
+    //      .call(d3.axisBottom(xScale).tickFormat(function(d){return dateMap.get(d) || " "}));
 
-    airlinesChartGroup.append("g")
-    	 .attr("transform", "translate("+margin+"," + margin + ")")
-         .call(d3.axisLeft(yScale));
+    // airlinesChartGroup.append("g")
+    // 	 .attr("transform", "translate("+margin+"," + margin + ")")
+    //      .call(d3.axisLeft(yScale));
 
     var dataNest = d3.nest()
         .key(function(d) {return d.airline;})
@@ -1175,13 +1374,188 @@ function makeAirlineChart(){
         .attr("stroke-width", 8)
         .attr("d", function(d,i){
           theLine =  d3.line()
-          	// .curve(d3.curveMonotoneX)
+          	.curve(d3.curveMonotoneX)
             .x(function(d) { return xScale(d.week); })
-            .y(function(d) { return yScale(+d.numFlights) + margin})
+            .y(function(d) { return yScale(+d.numFlights) })
             (d.values)
           return theLine;
         })
-      .on("mouseover", mouseOverLine)
+
+    //100 and 0 zero lines
+      airlinesChartGroup.append("line")
+      					.attr("stroke", 'black')
+      					.attr("x1", 0)     
+					    .attr("y1", margin)      
+					    .attr("x2", chartWidth)     
+					    .attr("y2", margin)
+					    .attr("stroke-width", 4)
+					    .attr("stroke-opacity", 0.15)
+					    .attr("stroke-dasharray", "10,10"); 
+
+	  airlinesChartGroup.append("line")
+      					.attr("stroke", 'black')
+      					.attr("x1", 0)     
+					    .attr("y1", (chartHeight- 2* margin)) 
+					    .attr("x2", chartWidth)     
+					    .attr("y2", (chartHeight- 2*margin))
+					    .attr("stroke-width", 4)
+					    .attr("stroke-opacity", 0.15)
+					    .attr("stroke-dasharray", "10,10"); 
+
+
+     hidingRect = airlinesChartGroup.append("rect")
+      					.attr('width', screenWidth)
+      					.attr('height', screenHeight)
+      					.attr('fill', 'white')
+      					.attr("id", "hiding-rect")
+      					.attr("transform", "translate(0,0)")
+
+     
+
+	  textOffsetY = 8;
+	  textOffsetX = chartWidth/100;
+	  airlinesChartGroup.append("text")
+	  					.attr('transform', 'translate('+ textOffsetX + ', '+ (margin - textOffsetY)+ ')')
+	  					.attr('class', 'label')
+	  					.text("100%")
+
+	  airlinesChartGroup.append("text")
+	  					.attr('transform', 'translate('+textOffsetX+','+(chartHeight- 2*margin -textOffsetY) + ')')
+	  					.attr('class', 'label')
+	  					.text("0%")
+
+	  // airlinesChartGroup.append("text")
+	  // 					.attr('transform', 'translate('+ 2.1*textOffsetX + ', '+ (margin - textOffsetY)+ ')')
+	  // 					.attr('class', 'buttonText')
+	  // 					.text("of 2020 Weekly Maximum")
+
+	  //add calendar
+
+	  strokeWidth = 2;
+	  //feb
+	  airlinesChartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ chartWidth*0.25 + ', '+ 0+ ')')
+	  					.attr('width', chartWidth*0.075)
+	  					.attr("rx", 3)
+	  					.attr("ry", 3)
+	  					.attr('height', 20)
+	  					.attr("opacity", 0.3)
+	  					.attr("fill", '#E7E7E7')
+	  					.attr("stroke", "#3B3B3B")
+	  					.attr("stroke-opacity", 0.8)
+	  					.attr('stroke-width', strokeWidth)
+
+
+	  airlinesChartGroup.append('text')
+	 		 			.attr('transform', 'translate('+ chartWidth*0.252 + ', '+ 15+ ')')
+	 		 			.attr("class", 'calendar')
+	 		 			.text('Feb');
+
+	  //march
+	  airlinesChartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.325 + strokeWidth) + ', '+ 0+ ')')
+	  					.attr('width', chartWidth*0.2)
+	  					.attr("rx", 3)
+	  					.attr("ry", 3)
+	  					.attr('height', 20)
+	  					.attr("opacity", 0.3)
+	  					.attr("fill", '#E7E7E7')
+	  					.attr("stroke", "#3B3B3B")
+	  					.attr("stroke-opacity", 0.8)
+	  					.attr('stroke-width', strokeWidth)
+
+	  airlinesChartGroup.append('text')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.327 + strokeWidth) + ', '+ 15+ ')')
+	 		 			.attr("class", 'calendar')
+	 		 			.text('Mar');
+
+	  //april
+	  airlinesChartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.525 + 2*strokeWidth) + ', '+ 0+ ')')
+	  					.attr('width', chartWidth*0.225)
+	  					.attr("rx", 3)
+	  					.attr("ry", 3)
+	  					.attr('height', 20)
+	  					.attr("opacity", 0.3)
+	  					.attr("fill", '#E7E7E7')
+	  					.attr("stroke", "#3B3B3B")
+	  					.attr("stroke-opacity", 0.8)
+	  					.attr('stroke-width', strokeWidth)
+
+	  airlinesChartGroup.append('text')
+	 		 			.attr('transform', 'translate('+ (chartWidth*0.527 + 2*strokeWidth) + ', '+ 15+ ')')
+	 		 			.attr("class", 'calendar')
+	 		 			.text('Apr');
+
+
+	  //current time marker
+
+	airlinesChartGroup.append('rect')
+	 		 			.attr('transform', 'translate('+ chartWidth*0.25 + ', '+ 0+ ')')
+	  					.attr('width', chartWidth*0.05)
+	  					.attr('height', 20)
+	  					.attr('id', 'timelineMarker')
+	  					.attr('fill', '#F08600')
+	  					.attr('opacity', 0.5)
+
+
+	airlineTextTitle = airlinesChartGroup.append('text')
+			  					.text("Percent of Normal Operation")
+			  					.attr('class', 'boxTitle')
+			  					.attr('transform', 'translate('+2*margin+','+(chartHeight*0.25)+')');
+
+	airlineText = airlinesChartGroup.append('text')
+			  					.text("Different types of airlines saw different types of traffic behavior.")
+			  					.attr('class', 'boxText')
+			  					.attr('transform', 'translate('+2*margin+','+(chartHeight*0.3)+')')
+			  					.call(wrap, chartWidth*0.25);
+
+	airlineText2 = airlinesChartGroup.append('text')
+			  					.text("Budget airlines - Frontier, Spirit, Sun Country, and Allegiant - cut a much larger percentage (90-99%) of their flights than the other major airlines.")
+			  					.attr('class', 'boxText')
+			  					.attr('transform', 'translate('+2*margin+','+(chartHeight*0.38)+')')
+			  					.call(wrap, chartWidth*0.25);
+
+	airlineText3 = airlinesChartGroup.append('text')
+			  					.text("The nation's largest carrier - Southwest - slashed its operations by 69% over the ten week span.")
+			  					.attr('class', 'boxText')
+			  					.attr('transform', 'translate('+2*margin+','+(chartHeight*0.5)+')')
+			  					.call(wrap, chartWidth*0.25);
+
+	airlineText4 = airlinesChartGroup.append('text')
+			  					.text("By contrast, Denver-based Frontier Airlines saw the most damage - operating only 11 nationwide flights in the last seven days of April compared to its 2020 weekly maximum of 1282.")
+			  					.attr('class', 'boxText')
+			  					.attr('transform', 'translate('+2*margin+','+(chartHeight*0.6)+')')
+			  					.call(wrap, chartWidth*0.25);
+
+	airlineText5 = airlinesChartGroup.append('text')
+			  					.text("Delivery airlines like UPS and FedEx operated at nearly constant levels. ")
+			  					.attr('class', 'boxText')
+			  					.attr('transform', 'translate('+2*margin+','+(chartHeight*0.72)+')')
+			  					.call(wrap, chartWidth*0.25);
+
+
+
+
+
+	//add circles
+
+	// airlinesChartGroup.selectAll('.airlineCircles')
+	// 					.data(dataNest)
+	// 					.enter()
+	// 					.append('circle')
+	// 						.attr("r", 25)
+	// 						.attr('cx', function(d){
+	// 							return xScale(d.values.filter(x => x.week == 9)[0].week)
+	// 						})
+	// 						.attr('cy', function(d){
+	// 							h = chartHeight*parseInt(d.values.filter(x => x.week == 9)[0].numFlights)/100
+	// 							return (chartHeight - h + margin )
+	// 						})
+	// 						.attr('fill', 'blue')
+	// 						.attr('class', 'airlineCircles')
+
+
 
 
       //add text
@@ -1193,13 +1567,13 @@ function makeAirlineChart(){
       	.attr('transform', function(d){
       		h = chartHeight*parseInt(d.values.filter(x => x.week == 18)[0].numFlights)/100
       		bonus = 0;
-      		if (d.values[0].airline == "AAY" || d.values[0].airline == "FDX" ){
-      			bonus = chartWidth*0.12
-      		}else if (d.values[0].airline == "JBU" ){
-      			bonus = chartWidth*0.21
-      		}
+      		// if (d.values[0].airline == "AAY" || d.values[0].airline == "FDX" ){
+      		// 	bonus = chartWidth*0.12
+      		// }else if (d.values[0].airline == "JBU" ){
+      		// 	bonus = chartWidth*0.21
+      		// }
 
-      		return 'translate('+(chartWidth*0.96+bonus)+','+ (chartHeight - h + margin ) +')'})
+      		return 'translate('+06+','+ (chartHeight - h + margin ) +')'})
       	.text(d => airlineNameMap.get(d.values[0].airline))
 
 }
@@ -1333,133 +1707,3 @@ function getScrollDistance() {
     }
     return y;
 }
-
-
-
-
-
-
-///MAIN
-
-initialLoad();
-window.addEventListener('scroll', function(e){
-
-	var distanceFromTop = getScrollDistance();
-	console.log(distanceFromTop + " --- " + distanceFromTop/screenHeight)
-	// console.log(distanceFromTop/(screenHeight*0.75))
-	if (screenHeight*0.5 > distanceFromTop && currentScrollState != scrollyState.TITLE){
-		currentScrollState = scrollyState.TITLE;
-		removeAirports();
-		drawRoutes();
-	}
-	else 
-		if (screenHeight*1.75 >= distanceFromTop && distanceFromTop > screenHeight*0.5){
-		if (currentScrollState != scrollyState.NORMAL_AIRPORT){
-			currentWeek=9
-			currentScrollState = scrollyState.NORMAL_AIRPORT;
-			zoomToCountry();
-			removeRoutes();
-			drawAirports();
-		}
-
-	} else if (screenHeight*2.25 >= distanceFromTop && distanceFromTop > screenHeight*1.75){
-		//abnormal airports
-		if (currentScrollState != scrollyState.ABNORMAL_AIRPORT){
-			currentWeek = 18
-			currentScrollState = scrollyState.ABNORMAL_AIRPORT;
-			unhighlightRoutes();
-			zoomToCountry();
-			removeRoutes();
-			drawAirports();
-		}
-
-	}
-
-	else if (screenHeight*3.2 >= distanceFromTop && distanceFromTop > screenHeight*2.25){
-		//LA most popular flights week 9
-		if (currentScrollState != scrollyState.NORMAL_POP_ROUTE){
-			currentScrollState = scrollyState.NORMAL_POP_ROUTE;
-			currentWeek = 9;
-			removeAirports();
-			drawRoutes();
-			highlightNormalPopRoutes();
-			zoomToLA();
-
-		}
-		mapSvg.select("#flightDeclineChart")
-				.attr("opacity", 0);
-
-	}else if (screenHeight*4.25 >= distanceFromTop && distanceFromTop > screenHeight*3.2){
-		//LA most popular flights week 18
-		if (currentScrollState != scrollyState.ABNORMAL_POP_ROUTE){
-			currentScrollState = scrollyState.ABNORMAL_POP_ROUTE;
-			currentWeek = 18;
-			removeAirports();
-			drawRoutes();
-
-			highlightNormalPopRoutes();
-			zoomToLA();
-
-		}
-		mapSvg.select("#flightDeclineChart")
-				.attr("opacity", 0);
-
-	} 
-	else if (screenHeight*5.65 >= distanceFromTop && distanceFromTop > screenHeight*4.25){
-		//total flights decline chart
-		zeroToOne = ((distanceFromTop-screenHeight*4.25)/screenHeight);
-		if (currentScrollState != scrollyState.TOTAL_FLIGHTS){
-			currentWeek = 9
-			unhighlightRoutes();
-			removeHighlightAirports();
-			currentScrollState = scrollyState.TOTAL_FLIGHTS;
-			setTimeout(zoomToRightSide, 250);
-		}
-
-		if (Math.round(zeroToOne*8)+10 != currentWeek && currentZoomScope == zoomScope.RIGHT_SIDE){
-			currentWeek = Math.round(zeroToOne*8)+10;
-			console.log("current week: " + currentWeek);
-			drawRoutes();
-		}
-		
-		mapSvg.select("#flightDeclineChart")
-				.attr("opacity", Math.min(zeroToOne*5, 1))
-
-		
-	}else if (screenHeight*6.4 >= distanceFromTop && distanceFromTop > screenHeight*5.65){
-		//airport comparison large
-		zeroToOne = ((distanceFromTop-screenHeight*5.65)/screenHeight);
-		mapSvg.select("#flightDeclineChart")
-				.attr("opacity", Math.max(-1*zeroToOne*5 + 1, 0))
-
-		if (currentScrollState != scrollyState.AIRPORT_COMPARE_LARGE){
-			currentScrollState = scrollyState.AIRPORT_COMPARE_LARGE;
-			removeRoutes();
-			removeAirlineChart();
-			setTimeout(zoomToCountry, 750);
-			setTimeout(highlightHighImpactAirports, 1500);
-		}
-
-	} else if (screenHeight*7.75 > distanceFromTop && distanceFromTop > screenHeight*6.4){
-		//airline comparison large
-		zeroToOne = ((distanceFromTop-screenHeight*6.4)/screenHeight);
-		if (currentScrollState != scrollyState.AIRLINE_COMPARE){
-			currentScrollState = scrollyState.AIRLINE_COMPARE;
-			removeAirportCharts();
-			removeAirportCircles();
-			makeAirlineChart();
-		}
-
-		mapSvg.select(".airlineGroup")
-				.attr("opacity", Math.min(zeroToOne*5, 1))
-
-	}else if (screenHeight*7.75 > distanceFromTop && distanceFromTop > screenHeight*6.4){
-		//airline comparison large
-		zeroToOne = ((distanceFromTop-screenHeight*6.4)/screenHeight);
-		if (currentScrollState != scrollyState.AIRLINE_COMPARE){
-			high
-		}
-
-	}
-
-})
