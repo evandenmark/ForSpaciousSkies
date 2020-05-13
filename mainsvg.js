@@ -84,8 +84,6 @@ function initialLoad(){
 
 function drawScrolly(){
 	//draws the scrollytelling blocks
-	console.log("WEEEEE")
-	console.log(screenWidth)
 
 	//main columns
 	scrollySVG = d3.select("#scrolly-column").append("svg")
@@ -133,7 +131,7 @@ function drawScrolly(){
 
 	var normalAirport = normalAirportGroup.append('rect')
 						.attr("width", rectWidth)
-						.attr("height", screenHeight/4)
+						.attr("height", screenHeight/5)
 					    .attr("fill", "#F0F2FF");
 
 	var normalAirportTitle = normalAirportGroup.append('text')
@@ -154,7 +152,7 @@ function drawScrolly(){
 
 	var abNormalAirport = abNormalAirportGroup.append('rect')
 						.attr("width", rectWidth)
-						.attr("height", screenHeight/4)
+						.attr("height", screenHeight/3)
 					    .attr("fill", "#F0F2FF");
 
 	var abNormalAirportTitle = abNormalAirportGroup.append('text')
@@ -171,12 +169,12 @@ function drawScrolly(){
 	var abNormalAirportText2 = abNormalAirportGroup.append('text')
 								.attr("class", 'boxText')
 								.attr('transform', 'translate('+margin+','+12*margin+')')
-								.text("Of the US's major airports, Newark (EWR) was the hit the hardest, reducing its traffic to only 9% of its weekly normal.")
+								.text("Of the US's major airports, New York Laguardia (LGA) was the hit the hardest, reducing its traffic to only 4.6% of its weekly normal. New York, the pandemic epicenter, reduced its weekly domestic traffic by 11,444 flights as a city.")
 								.call(wrap, rectWidth-2*margin)
 
 	var abNormalAirportText3 = abNormalAirportGroup.append('text')
 								.attr("class", 'boxText')
-								.attr('transform', 'translate('+margin+','+18*margin+')')
+								.attr('transform', 'translate('+margin+','+24*margin+')')
 								.text("Airports in more rural cities saw less of a decrease, like Louisville, KY (SDF), which shrunk to only 71% of its weekly normal.")
 								.call(wrap, rectWidth-2*margin)
 
@@ -534,7 +532,7 @@ function makeFlightDeclineChart(chartGroup){
 								.attr('transform', 'translate('+margin+','+chartHeight*1.2+')');
 
     declineText = chartGroup.append('text')
-							.text("Begginning the week of March 16, flights across the board took a nosedive for four straight weeks before leveling off around April 19. The last two weeks in April saw approximately 27% of 2020's busiest week. ")
+							.text("Beginning the week of March 16, the total number of US domestic flights took a nosedive for four straight weeks before leveling off around April 19. The last two weeks in April saw approximately 27% of 2020's busiest week. ")
 							.attr('class', 'boxText')
 							.attr('transform', 'translate('+margin+','+chartHeight*1.3+')')
 							.call(wrap, screenWidth*0.3);
@@ -1523,7 +1521,7 @@ function makeAirlineChart(scrollySVG){
 			  					.call(wrap, chartWidth*0.25);
 
 	airlineText4 = airlinesChartGroup.append('text')
-			  					.text("By contrast, Denver-based Frontier Airlines saw the most damage - operating only 11 nationwide flights in the last seven days of April compared to its 2020 weekly maximum of 1282.")
+			  					.text("By contrast, Denver-based Frontier Airlines saw the most damage - operating only 11 nationwide flights in the last seven days of April compared to its 2020 weekly maximum of 1282 (< 1%).")
 			  					.attr('class', 'boxText')
 			  					.attr('transform', 'translate('+2*margin+','+(chartHeight*0.6)+')')
 			  					.call(wrap, chartWidth*0.25);

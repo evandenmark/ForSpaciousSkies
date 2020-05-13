@@ -88,7 +88,7 @@ window.addEventListener('scroll', function(e){
 				.attr("opacity", Math.min(zeroToOne*5, 1))
 
 		mapSvg.select("#declineHidingRect")
-				.attr('width', (1-zeroToOne)*screenWidth*0.33)
+				.attr('width', Math.max(0,(1-zeroToOne)*screenWidth*0.33))
 				.attr('transform', 'translate('+(zeroToOne*screenWidth*0.33)+','+0+')')
 
 		timelinePlaceDecline =  Math.min(zeroToOne*screenWidth*0.33, screenWidth*0.3)

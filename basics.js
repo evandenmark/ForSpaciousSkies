@@ -20,7 +20,7 @@ var airportLocationMap;
 var airportStateMap;
 var airportCityMap;
 
-const majorAirports = ['KATL', 'KLAX', 'KORD', 'KBOS', 'KDEN', 'KDFW', 'KSEA','KPHX', 'KEWR', 'KSDF']
+const majorAirports = ['KATL', 'KLAX', 'KORD', 'KBOS', 'KDEN', 'KDFW', 'KSEA','KPHX', 'KLGA', 'KSDF']
 let excludedStates = ['AK', 'HI'];
 var airlineMaxes = new Map();
 
