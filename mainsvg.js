@@ -121,7 +121,12 @@ function drawScrolly(){
 
 	var name = titleGroup.append('text')
 							.attr("id", 'name')
-							.text("By EVAN DENMARK")
+							.text("By EVAN DENMARK ")
+
+	var twitter = titleGroup.append('text')
+							.attr("id", 'twitter')
+							.attr("transform", 'translate('+0+','+ 0.1*titleHeight+')')
+							.text("@EvDenmark")
 
 	//normal airport
 	var margin = 10;

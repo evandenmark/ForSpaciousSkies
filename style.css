@@ -38,6 +38,13 @@
 	text-anchor: middle;
 }
 
+#twitter {
+	font-family: 'Zilla Slab', serif;
+	text-align: center;
+	font-size: 12px;
+	text-anchor: middle;
+}
+
 .boxTitle {
 	font-family: 'Zilla Slab', serif;
 	font-weight: bold;
