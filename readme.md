@@ -1,4 +1,4 @@
-**For Spacious Skies**
+#For Spacious Skies
 
 This is a scrolly-telling narrative designed and developed by Evan Denmark for MIT's 6.894 Data Visualization class. Data is provided by OpenSky Network (www.opensky-network.org) and OurAirports (www.ourairports.com). 
 
